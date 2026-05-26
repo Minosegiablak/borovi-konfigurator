@@ -1086,6 +1086,8 @@ function updateMidView(){
   var photoEl=document.getElementById('mid-photo');
   var svgWrap=document.getElementById('mid-svg-wrap');
   var toggleBtn=document.getElementById('toggle-view-btn');
+  // Tükrözés bal nyitásnál
+  photoEl.style.transform=cfg.hinge==='left'?'scaleX(-1)':'scaleX(1)';
   if(imgSrc){
     toggleBtn.style.display='block';
     if(midShowPhoto){
@@ -1157,6 +1159,7 @@ function s(k,v,el){
     var n={uth:'UTH tok az alapárban (Dekor: ≤12cm, CPL/MDF: ≤15cm falvastagságig).',gereb:'Gerébtok felár: Dekor/CPL +14 700 Ft, Festett MDF +29 400 Ft.',none:'Csak ajtólap (tok ára levonva a modell árból).'};
     document.getElementById('tok-note').textContent=n[v]||'';
   }
+  if(k==='hinge')updateMidView();
   draw();calc();
 }
 function sh(v,el){
