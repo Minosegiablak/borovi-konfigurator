@@ -1190,6 +1190,7 @@ var hwC={chrome:'#c8c8d4',gold:'#d4a843',mblack:'#3a3a3a',bronze:'#8c5e3c',nicke
 
 function draw(){
   var svg=document.getElementById('dsvg');
+  if(!svg){updateMidView();return;}
   var W=320,H=520;
   var noF=cfg.frame==='none';
   var ft=noF?0:cfg.frame==='uth'?12:9;
@@ -1273,6 +1274,7 @@ function leaf(x,y,w,h,isL,hw){
 // ════ TOK FELULNEZETI METSZET ════
 function drawSection(){
   var svg=document.getElementById('tsvg');
+  if(!svg)return;
   if(!svg)return;
   var W=320,H=180;
   var doorW_cm=cfg.w||90;
@@ -1556,6 +1558,7 @@ function changeZoom(delta){
 function resetZoom(){zoomLevel=1.0;applyZoom();}
 function applyZoom(){
   var inner=document.getElementById('draw-inner');
+  if(!inner)return;
   if(inner)inner.style.transform='scale('+zoomLevel+')';
   var scroll=document.getElementById('draw-scroll');
   if(scroll){
