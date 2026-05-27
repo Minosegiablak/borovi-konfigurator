@@ -473,7 +473,7 @@ body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:13px;ov
     <img id="mid-photo-l" src="" alt="" style="max-height:460px;width:50%;object-fit:cover;display:none">
     <img id="mid-photo-r" src="" alt="" style="max-height:460px;width:50%;object-fit:cover;display:none">
     <!-- Ha nincs kép -->
-    <div id="mid-no-img" style="color:var(--t3);font-size:11px;display:none">Nincs előnézeti kép</div>
+    <div id="mid-no-img" style="color:var(--t2);font-size:10px;font-family:var(--bb);letter-spacing:0.5px;text-align:center;padding:8px 0 4px 0;display:none"></div>
   </div>
 </div>
 
@@ -1095,16 +1095,14 @@ function updateMidView(){
   }
 
   if(isD){
-    // Kétszárnyas: bal kép tükrözve (pánt balra), jobb kép normál (pánt jobbra)
-    // Kilincs: bal szárnyon jobb oldalon, jobb szárnyon bal oldalon (egymással szemben)
-    photoL.src=imgSrc;
-    photoR.src=imgSrc;
-    photoL.style.display='block';
-    photoR.style.display='block';
-    // bal szárny: normál (kilincs jobb oldalon néz a középre)
-    // jobb szárny: tükrözve (kilincs bal oldalon néz a középre)
-    photoL.style.transform='scaleX(1)';
-    photoR.style.transform='scaleX(-1)';
+    // Kétszárnyas: egyszárnyas képet mutat üzenettel
+    photoEl.src=imgSrc;
+    photoEl.style.display='block';
+    photoEl.style.transform='scaleX(1)';
+    photoL.style.display='none';
+    photoR.style.display='none';
+    noImg.style.display='block';
+    noImg.innerHTML='⚠️ Jelenleg nem tudok kétszárnyú ajtót megjeleníteni.<br><span style="font-size:9px;color:var(--t3)">Az alábbi kép egyszárnyú kivitelt mutat.</span>';
   } else {
     // Egyszárnyas
     photoEl.src=imgSrc;
