@@ -11,11 +11,11 @@
 :root{
   --bg:#0d0d0d;--bg2:#161616;--bg3:#1e1e1e;--bg4:#252525;
   --red:#e63228;--red2:#ff4a40;--grn:#3a9a4a;
-  --brd:#2a2a2a;--brd2:#333;
-  --t:#f0ede8;--t2:#aaa;--t3:#555;
+  --brd:#2a2a2a;--brd2:#444;
+  --t:#ffffff;--t2:#cccccc;--t3:#888888;
   --bb:'Bebas Neue',sans-serif;--dm:'DM Sans',sans-serif
 }
-body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:13px;overflow:hidden}
+body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:14px;overflow:hidden}
 
 /* ══ 3-col layout: wide left | narrow mid | right ══ */
 .app{display:grid;grid-template-columns:520px 1fr 280px;height:100vh}
@@ -594,14 +594,26 @@ body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:13px;ov
       <input class="ceg-inp" id="aj-megjegyzes" type="text" placeholder="Megjegyzés az ajánlathoz">
 
       <div class="asec">HASZON BEÁLLÍTÁS</div>
-      <div class="hbox">
-        <div class="hbox-t">MODELLEK</div>
-        <div class="hrow"><span class="hlabel">Kedvezmény a lista ártól</span><div class="hiw"><input class="hinp" type="number" id="kedv-pct" value="30" min="0" max="70" step="0.5" oninput="save();calc()"><span class="hunit">%</span></div></div>
-        <div class="hrow"><span class="hlabel">Haszon a nettó árra</span><div class="hiw"><input class="hinp" type="number" id="has-mod" value="20" min="0" max="200" step="0.5" oninput="save();calc()"><span class="hunit">%</span></div></div>
+      <div id="haszon-lock-box" style="background:var(--bg4);border:1px solid var(--brd2);border-radius:3px;padding:12px;margin-bottom:10px;text-align:center">
+        <div style="font-size:22px;margin-bottom:6px">🔒</div>
+        <div style="font-family:var(--bb);font-size:12px;letter-spacing:2px;color:var(--t2);margin-bottom:8px">VÉDETT TERÜLET</div>
+        <div style="display:flex;gap:6px;justify-content:center;align-items:center">
+          <input type="password" id="haszon-pw" placeholder="Kód" style="background:var(--bg3);border:1px solid var(--brd2);color:var(--t);font-family:var(--dm);font-size:13px;padding:5px 8px;border-radius:2px;width:100px" onkeydown="if(event.key==='Enter')unlockHaszon()">
+          <button onclick="unlockHaszon()" style="background:var(--red);border:none;color:#fff;font-family:var(--bb);font-size:12px;letter-spacing:1px;padding:6px 12px;cursor:pointer;border-radius:2px">NYIT</button>
+        </div>
+        <div id="haszon-lock-err" style="color:var(--red);font-size:10px;margin-top:5px;display:none">Helytelen kód!</div>
       </div>
-      <div class="hbox">
-        <div class="hbox-t">FELÁRAK / KIEGÉSZÍTŐK</div>
-        <div class="hrow"><span class="hlabel">Haszon az átadási árra</span><div class="hiw"><input class="hinp" type="number" id="has-fel" value="15" min="0" max="200" step="0.5" oninput="save();calc()"><span class="hunit">%</span></div></div>
+      <div id="haszon-content" style="display:none">
+        <div class="hbox">
+          <div class="hbox-t">MODELLEK</div>
+          <div class="hrow"><span class="hlabel">Kedvezmény a lista ártól</span><div class="hiw"><input class="hinp" type="number" id="kedv-pct" value="30" min="0" max="70" step="0.5" oninput="save();calc()"><span class="hunit">%</span></div></div>
+          <div class="hrow"><span class="hlabel">Haszon a nettó árra</span><div class="hiw"><input class="hinp" type="number" id="has-mod" value="20" min="0" max="200" step="0.5" oninput="save();calc()"><span class="hunit">%</span></div></div>
+        </div>
+        <div class="hbox">
+          <div class="hbox-t">FELÁRAK / KIEGÉSZÍTŐK</div>
+          <div class="hrow"><span class="hlabel">Haszon az átadási árra</span><div class="hiw"><input class="hinp" type="number" id="has-fel" value="15" min="0" max="200" step="0.5" oninput="save();calc()"><span class="hunit">%</span></div></div>
+        </div>
+        <button onclick="lockHaszon()" style="background:none;border:1px solid var(--brd2);color:var(--t3);font-family:var(--bb);font-size:10px;letter-spacing:1px;padding:4px 10px;cursor:pointer;border-radius:2px;margin-bottom:10px">🔒 ZÁRÁS</button>
       </div>
 
       <div class="asec">ÁTADÁSI FELÁRAK</div>
@@ -938,6 +950,24 @@ var customItemId=0;
 
 // ════ AUTH ════
 var PW_KEY='bp_pw3';var SET_KEY='bp_set3';
+var HASZON_PW='haszon2026';
+function unlockHaszon(){
+  var pw=document.getElementById('haszon-pw').value;
+  var err=document.getElementById('haszon-lock-err');
+  if(pw===HASZON_PW){
+    document.getElementById('haszon-lock-box').style.display='none';
+    document.getElementById('haszon-content').style.display='block';
+    err.style.display='none';
+  } else {
+    err.style.display='block';
+    document.getElementById('haszon-pw').value='';
+  }
+}
+function lockHaszon(){
+  document.getElementById('haszon-lock-box').style.display='block';
+  document.getElementById('haszon-content').style.display='none';
+  document.getElementById('haszon-pw').value='';
+}
 function getPw(){return localStorage.getItem(PW_KEY)||'borovi2026';}
 var loggedIn=false;
 function tryLogin(){
@@ -1668,17 +1698,22 @@ function addCustomItem(){
   document.getElementById('ca-name').value='';document.getElementById('ca-price').value='';
   hideCustom();renderCart();
 }
-function removeFromCart(id){cart=cart.filter(function(c){return c.id!==id;});renderCart();}
+function removeFromCart(btn){var id=btn.getAttribute('data-id');cart=cart.filter(function(c){return c.id!==id;});renderCart();}
 function clearCart(){if(cart.length===0)return;if(confirm('Biztosan törlöd az összes tételt?')){cart=[];renderCart();}}
 function renderCart(){
   var list=document.getElementById('cart-list');
+  if(!list)return;
   document.getElementById('cart-count').textContent=cart.length;
-  var empty=document.getElementById('cart-empty');
-  if(cart.length===0){empty.style.display='block';list.innerHTML='';list.appendChild(empty);updateCartTotal();return;}
-  empty.style.display='none';list.innerHTML='';
+  if(cart.length===0){
+    list.innerHTML='<div class="cart-empty" id="cart-empty">Még nincs tétel az ajánlatban.</div>';
+    updateCartTotal();
+    return;
+  }
+  list.innerHTML='';
   cart.forEach(function(item,i){
-    var el=document.createElement('div');el.className='cart-item';
-    el.innerHTML='<span class="ci-num">'+(i+1)+'.</span><div class="ci-body"><div class="ci-name">'+item.name+'</div>'+(item.detail?'<div class="ci-det">'+item.detail+'</div>':'')+'</div><span class="ci-price">'+item.total.toLocaleString('hu-HU')+' Ft</span><button class="ci-del" onclick="removeFromCart(\''+item.id+'\')">✕</button>';
+    var el=document.createElement('div');
+    el.className='cart-item';
+    el.innerHTML='<span class="ci-num">'+(i+1)+'.</span><div class="ci-body"><div class="ci-name">'+item.name+'</div>'+(item.detail?'<div class="ci-det">'+item.detail+'</div>':'')+'</div><span class="ci-price">'+item.total.toLocaleString('hu-HU')+' Ft</span><button class="ci-del" onclick="removeFromCart(this)" data-id="'+item.id+'">✕</button>';
     list.appendChild(el);
   });
   updateCartTotal();
