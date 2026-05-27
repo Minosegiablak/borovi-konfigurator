@@ -17,16 +17,20 @@
 }
 body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:15px;overflow:hidden}
 
-/* ══ 3-col layout: wide left | narrow mid | right ══ */
-.app{display:grid;grid-template-columns:520px 1fr 280px;height:100vh}
+/* ══ NEW 2-col layout: left config | right (photo+offer) ══ */
+.app{display:grid;grid-template-columns:540px 1fr;height:100vh;overflow:hidden}
+@media(max-width:900px){
+  .app{grid-template-columns:1fr;height:auto;overflow:auto}
+  body{overflow:auto}
+}
 
-/* ══════════ LEFT — 2-col grid inside ══════════ */
-.left{background:var(--bg);border-right:1px solid var(--brd);overflow-y:auto}
+/* ══════════ LEFT ══════════ */
+.left{background:var(--bg);border-right:1px solid var(--brd);overflow-y:auto;display:flex;flex-direction:column}
 .left::-webkit-scrollbar{width:3px}.left::-webkit-scrollbar-thumb{background:var(--brd2)}
 
-.ph{padding:14px 20px 11px;border-bottom:1px solid var(--brd)}
+.ph{padding:14px 20px 11px;border-bottom:1px solid var(--brd);flex-shrink:0}
 .ph-t{font-family:var(--bb);font-size:22px;letter-spacing:2px;color:var(--red)}
-.ph-s{font-size:10px;color:var(--t3);letter-spacing:1px;text-transform:uppercase;margin-top:2px}
+.ph-s{font-size:11px;color:var(--t3);letter-spacing:1px;text-transform:uppercase;margin-top:2px}
 
 /* 2-column config grid */
 .cfg-grid{display:grid;grid-template-columns:1fr 1fr;gap:0}
@@ -60,17 +64,14 @@ body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:15px;ov
 .stab:hover{color:var(--t2)}.stab.active{color:var(--red);border-bottom-color:var(--red)}
 .sp{display:none}.sp.vis{display:block}
 
-/* color swatches — bigger */
+/* color swatches */
 .drow{display:flex;gap:8px;flex-wrap:wrap}
 .ci{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer}
 .csw{width:36px;height:36px;border-radius:3px;border:2px solid transparent;transition:all .12s;flex-shrink:0}
 .csw:hover{transform:scale(1.08);border-color:#555}
 .csw.active{border-color:var(--red);transform:scale(1.1);box-shadow:0 0 0 1px var(--red)}
 .cn{font-size:8px;color:var(--t3);text-align:center;max-width:40px;line-height:1.3}
-
 .cplg{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
-.cplg::-webkit-scrollbar{width:3px}.cplg::-webkit-scrollbar-thumb{background:var(--brd2)}
-
 .ral-r{display:flex;gap:7px;align-items:center}
 .ral-pr{width:36px;height:36px;border-radius:3px;border:1px solid var(--brd2);flex-shrink:0}
 .ral-i{background:var(--bg3);border:1px solid var(--brd2);color:var(--t);font-family:var(--dm);font-size:12px;padding:7px 10px;flex:1;border-radius:3px}
@@ -88,7 +89,6 @@ body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:15px;ov
 .ho:hover{border-color:#555}.ho.active{border-color:var(--red);background:rgba(230,50,40,0.07)}
 .hw-d{width:14px;height:14px;border-radius:50%;border:1px solid #444;flex-shrink:0}
 .hw-n{font-size:11px;color:var(--t2)}
-
 .note{font-size:11px;color:var(--t2);margin-top:5px;line-height:1.6}
 
 /* accordion */
@@ -99,19 +99,37 @@ body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:15px;ov
 .acc-a.open{transform:rotate(180deg)}
 .acc-b{display:none;padding:12px 20px;border-bottom:1px solid var(--brd)}
 .acc-b.open{display:block}
-/* 2-col inside accordion */
 .acc-2col{display:grid;grid-template-columns:1fr 1fr;gap:12px 20px}
 .acc-sec{margin-bottom:0}
 .acc-sec .sl{margin-bottom:6px}
 
-/* ══════════ MIDDLE ══════════ */
-.mid{background:var(--bg2);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px 12px;gap:10px;border-right:1px solid var(--brd)}
-.mid-model{font-family:var(--bb);font-size:14px;letter-spacing:2px;color:var(--t2)}
-.mid-cat{font-size:9px;color:var(--t3);letter-spacing:1px;text-transform:uppercase}
-.mid-dim{font-size:9px;color:var(--t3);margin-top:2px}
+/* ══ ÜVEGEZÉS ══ */
+.uveg-sec{padding:12px 20px;border-bottom:1px solid var(--brd);display:none}
+.uveg-sec.vis{display:block}
+.uveg-table{width:100%;border-collapse:collapse;margin-top:8px}
+.uveg-table th{font-family:var(--bb);font-size:10px;letter-spacing:1px;color:var(--t3);text-align:left;padding:5px 8px;border-bottom:1px solid var(--brd2)}
+.uveg-table td{padding:5px 8px;font-size:11px;color:var(--t2);border-bottom:1px solid var(--brd);vertical-align:middle}
+.uveg-table tr:hover td{background:var(--bg3)}
+.uveg-table tr.active-uveg td{background:rgba(230,50,40,0.08);color:var(--t)}
+.uveg-table td:last-child{text-align:right;color:var(--red);font-family:var(--bb);font-size:12px;white-space:nowrap}
+.uveg-radio{width:14px;height:14px;accent-color:var(--red);cursor:pointer;flex-shrink:0}
+.uveg-lbl{cursor:pointer}
 
-/* ══════════ RIGHT ══════════ */
-.right{background:var(--bg);display:flex;flex-direction:column;overflow:hidden}
+/* ══ RIGHT PANEL ══ */
+.right{display:flex;flex-direction:column;overflow:hidden;background:var(--bg2)}
+@media(max-width:900px){.right{height:auto;overflow:visible}}
+
+/* Photo preview top */
+.mid{background:var(--bg2);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:14px 16px;border-bottom:1px solid var(--brd);flex-shrink:0}
+.mid-info{display:flex;align-items:flex-start;justify-content:space-between;width:100%;margin-bottom:10px}
+.mid-model{font-family:var(--bb);font-size:16px;letter-spacing:2px;color:var(--t)}
+.mid-cat{font-size:10px;color:var(--t3);letter-spacing:1px;text-transform:uppercase;margin-top:2px}
+.mid-dim{font-size:10px;color:var(--t3);margin-top:3px}
+.mid-photo{max-height:320px;max-width:100%;object-fit:contain;display:none}
+.mid-no-msg{font-size:11px;color:var(--t3);text-align:center;padding:4px 0}
+
+/* ══ OFFER / RIGHT BOTTOM ══ */
+.offer{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--bg)}
 .tab-bar{display:flex;border-bottom:1px solid var(--brd);flex-shrink:0}
 .tab{padding:10px 0;font-family:var(--bb);font-size:10px;letter-spacing:2px;color:var(--t3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .12s;flex:1;text-align:center}
 .tab:hover{color:var(--t2)}.tab.active{color:var(--red);border-bottom-color:var(--red)}
@@ -119,7 +137,7 @@ body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:15px;ov
 
 /* price panel */
 .price-panel{display:flex;flex-direction:column;flex:1;overflow:hidden}
-.price-body{flex:1;padding:14px 16px;overflow-y:auto;display:flex;flex-direction:column;gap:12px}
+.price-body{flex:1;padding:12px 16px;overflow-y:auto;display:flex;flex-direction:column;gap:10px}
 .price-body::-webkit-scrollbar{width:2px}.price-body::-webkit-scrollbar-thumb{background:var(--brd2)}
 .ptitle{font-family:var(--bb);font-size:10px;letter-spacing:2px;color:var(--t2);margin-bottom:6px}
 .chips{display:flex;flex-wrap:wrap;gap:3px}
@@ -131,7 +149,7 @@ body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:15px;ov
 .hr{border:none;border-top:1px solid var(--brd);margin:2px 0}
 .ptot-row{display:flex;justify-content:space-between;align-items:baseline}
 .ptot-label{font-family:var(--bb);font-size:11px;letter-spacing:1.5px;color:var(--t2)}
-.ptot-val{font-family:var(--bb);font-size:28px;color:var(--red);line-height:1}
+.ptot-val{font-family:var(--bb);font-size:26px;color:var(--red);line-height:1}
 .pcu{font-size:12px;color:var(--t2);margin-right:2px}
 .pafa{font-size:9px;color:var(--t3);text-align:right;margin-top:2px}
 
@@ -141,7 +159,7 @@ body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:15px;ov
 .cart-title{font-family:var(--bb);font-size:10px;letter-spacing:2px;color:var(--t2)}
 .add-btn{background:var(--red);border:none;color:#fff;font-family:var(--bb);font-size:9px;letter-spacing:1px;padding:5px 11px;cursor:pointer;border-radius:2px}
 .add-btn:hover{background:var(--red2)}
-.cart-list{max-height:130px;overflow-y:auto;padding:0 16px 6px}
+.cart-list{max-height:120px;overflow-y:auto;padding:0 16px 6px}
 .cart-list::-webkit-scrollbar{width:2px}.cart-list::-webkit-scrollbar-thumb{background:var(--brd2)}
 .cart-item{background:var(--bg3);border:1px solid var(--brd2);border-radius:2px;padding:6px 9px;margin-bottom:4px;display:flex;align-items:flex-start;gap:6px}
 .ci-num{font-family:var(--bb);font-size:11px;color:var(--red);flex-shrink:0;padding-top:1px}
@@ -159,8 +177,6 @@ body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:15px;ov
 .cart-actions{padding:5px 16px 6px;display:flex;gap:5px;border-top:1px solid var(--brd)}
 .ca-sm-btn{background:var(--bg3);border:1px solid var(--brd2);color:var(--t3);font-family:var(--bb);font-size:9px;letter-spacing:1px;padding:5px 10px;cursor:pointer;border-radius:2px}
 .ca-sm-btn:hover{color:var(--t2);border-color:#555}
-
-/* custom item */
 .custom-add{padding:7px 16px;border-top:1px solid var(--brd);display:none}
 .custom-add.vis{display:block}
 .ca-row{display:flex;gap:5px;align-items:center;margin-bottom:5px}
@@ -169,7 +185,6 @@ body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:15px;ov
 .ca-inp.num{width:90px;flex:none;text-align:right}
 .ca-ok{background:var(--red);border:none;color:#fff;font-family:var(--bb);font-size:9px;letter-spacing:1px;padding:5px 11px;cursor:pointer;border-radius:2px}
 .ca-cancel{background:var(--bg3);border:1px solid var(--brd2);color:var(--t2);font-family:var(--bb);font-size:9px;padding:5px 9px;cursor:pointer;border-radius:2px}
-
 .pdf-btn{margin:0 16px 12px;background:var(--bg3);border:1px solid var(--brd2);color:var(--t2);font-family:var(--bb);font-size:10px;letter-spacing:2px;padding:9px;cursor:pointer;border-radius:2px;width:calc(100% - 32px);flex-shrink:0}
 .pdf-btn:hover{border-color:var(--red);color:var(--red)}
 
@@ -229,12 +244,6 @@ body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:15px;ov
 .mcard-nosvg{width:100%;height:100%}
 .mcard-lbl{font-size:8px;color:var(--t3);text-align:center;padding:3px 2px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mcard.active .mcard-lbl{color:var(--red)}
-
-/* Middle photo preview */
-.mid-photo{width:100%;flex:1;object-fit:contain;border-radius:2px;display:none}
-.mid-photo.vis{display:block}
-.mid-svg-wrap{width:100%;flex:1;display:flex;flex-direction:column;align-items:center}
-.mid-svg-wrap.hidden{display:none}
 
 /* ══════════ PDF OVERLAY ══════════ */
 .pdf-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.87);z-index:100;align-items:center;justify-content:center}
@@ -395,7 +404,8 @@ body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:15px;ov
     <div class="cfg-cell full">
       <div class="sl">PÁNT TAKARÓ SZÍN</div>
       <div class="hwg">
-        <div class="ho active" onclick="sh('fekete',this)"><div class="hw-d" style="background:#1a1a1a;border-color:#555"></div><span class="hw-n">Fekete</span></div>
+        <div class="ho active" onclick="sh('nincs',this)"><div class="hw-d" style="background:#2a2a2a;border-color:#555;display:flex;align-items:center;justify-content:center;font-size:10px;color:#888">—</div><span class="hw-n">Nincs</span></div>
+        <div class="ho" onclick="sh('fekete',this)"><div class="hw-d" style="background:#1a1a1a;border-color:#555"></div><span class="hw-n">Fekete</span></div>
         <div class="ho" onclick="sh('feher',this)"><div class="hw-d" style="background:#f0f0f0;border-color:#ccc"></div><span class="hw-n">Fehér</span></div>
         <div class="ho" onclick="sh('antracit',this)"><div class="hw-d" style="background:#3a3f47;border-color:#666"></div><span class="hw-n">Antracit</span></div>
         <div class="ho" onclick="sh('krom',this)"><div class="hw-d" style="background:#c8c8d0;border-color:#999"></div><span class="hw-n">Króm</span></div>
@@ -406,11 +416,30 @@ body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:15px;ov
         <div class="ho" onclick="sh('matt_rez',this)"><div class="hw-d" style="background:#a07840;border-color:#785828"></div><span class="hw-n">Matt réz</span></div>
         <div class="ho" onclick="sh('matt_vorosrez',this)"><div class="hw-d" style="background:#8b3a2a;border-color:#602818"></div><span class="hw-n">Matt vörösréz</span></div>
       </div>
-      <div class="note" style="margin-top:6px">Pánt takaró felára: 1 700 Ft+ÁFA/db · Ajtónként 2 db szükséges (3 400 Ft+ÁFA/ajtó)</div>
+      <div class="note" id="pant-note" style="display:none">Pánt takaró felára: 1 700 Ft+ÁFA/db · Ajtónként 2 db szükséges (3 400 Ft+ÁFA/ajtó)</div>
       <div class="note" style="margin-top:4px;color:var(--t3)">Kilincs választás hamarosan elérhető.</div>
     </div>
 
   </div><!-- /cfg-grid -->
+
+  <!-- ÜVEGEZÉS (csak üveges ajtónál) -->
+  <div class="uveg-sec" id="uveg-sec">
+    <div class="sl">ÜVEGEZÉS</div>
+    <div class="note" style="color:var(--red);margin-bottom:6px">⚠ Kedvezmények a felárakból nem érvényesíthetők!</div>
+    <table class="uveg-table">
+      <tr><th></th><th>Üvegtípus</th><th>Felár/ajtó</th></tr>
+      <tr class="uveg-row" onclick="selectUveg('alap',this)"><td><input type="radio" class="uveg-radio" name="uveg" value="alap" checked></td><td class="uveg-lbl">Csincsilla fehér; Fatörzs Fehér; Float; Krizet; Kura; Sima Savmart</td><td>alapáras</td></tr>
+      <tr class="uveg-row" onclick="selectUveg('extra1',this)"><td><input type="radio" class="uveg-radio" name="uveg" value="extra1"></td><td class="uveg-lbl">Fekete; Fehér Punto; Santuk; Szürke Parsol; Basak; Domino; Matt Delta; Szürke reflexiós; Screen</td><td>7 800 Ft</td></tr>
+      <tr class="uveg-row" onclick="selectUveg('lemezbetet',this)"><td><input type="radio" class="uveg-radio" name="uveg" value="lemezbetet"></td><td class="uveg-lbl">Lemezbetét (ajtó színével azonos)</td><td>12 200 Ft</td></tr>
+      <tr class="uveg-row" onclick="selectUveg('tukor',this)"><td><input type="radio" class="uveg-radio" name="uveg" value="tukor"></td><td class="uveg-lbl">Egyoldali tükör (kazettás ajtókba rendelhető)</td><td>24 900 Ft</td></tr>
+      <tr class="uveg-row" onclick="selectUveg('bizbizt',this)"><td><input type="radio" class="uveg-radio" name="uveg" value="bizbizt"></td><td class="uveg-lbl">4.4.1 float ragasztott biztonsági; 4.4.1 matt ragasztott biztonsági</td><td>24 900 Ft</td></tr>
+      <tr class="uveg-row" onclick="selectUveg('fekbizt_kaz',this)"><td><input type="radio" class="uveg-radio" name="uveg" value="fekbizt_kaz"></td><td class="uveg-lbl">Extra Fekete 4.4.1 ragasztott biztonsági — kazettás ajtókhoz</td><td>49 800 Ft</td></tr>
+      <tr class="uveg-row" onclick="selectUveg('fekbizt_kif',this)"><td><input type="radio" class="uveg-radio" name="uveg" value="fekbizt_kif"></td><td class="uveg-lbl">Extra Fekete 4.4.1 ragasztott biztonsági — kifutó üveges ajtókhoz</td><td>18 800 Ft</td></tr>
+      <tr class="uveg-row" onclick="selectUveg('bizanc_esg',this)"><td><input type="radio" class="uveg-radio" name="uveg" value="bizanc_esg"></td><td class="uveg-lbl">Szürke Parsol 8mm ESG — Bizánc modellhez</td><td>21 000 Ft</td></tr>
+      <tr class="uveg-row" onclick="selectUveg('bizanc_cs',this)"><td><input type="radio" class="uveg-radio" name="uveg" value="bizanc_cs"></td><td class="uveg-lbl">Clear Shield bevonat — Bizánc ajtókhoz</td><td>24 900 Ft</td></tr>
+      <tr class="uveg-row" onclick="selectUveg('bizanc_savmar',this)"><td><input type="radio" class="uveg-radio" name="uveg" value="bizanc_savmar"></td><td class="uveg-lbl">Egyedi savmaratási minta — Bizánc modellhez</td><td>40 500 Ft</td></tr>
+    </table>
+  </div>
 
   <!-- Kiegészítők accordion -->
   <div class="acc-h" onclick="toggleAcc(this)">
@@ -460,34 +489,32 @@ body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:15px;ov
   </div>
 </div><!-- /left -->
 
-<!-- ════════════ MIDDLE ════════════ -->
-<div class="mid" style="overflow:hidden;padding:12px 8px;display:flex;flex-direction:column;align-items:center">
-  <!-- Fejléc -->
-  <div style="display:flex;align-items:center;justify-content:space-between;width:100%;margin-bottom:8px;flex-shrink:0">
-    <div style="text-align:left">
-      <div class="mid-model" id="mid-model">— SZICÍLIA —</div>
-      <div class="mid-cat" id="mid-cat">Standard</div>
-      <div class="mid-dim" id="mid-dim">90 × 210 cm · 10 cm fal</div>
+<!-- ════════════ RIGHT (kép + ajánlat) ════════════ -->
+<div class="right">
+
+  <!-- FOTÓ ELŐNÉZET -->
+  <div class="mid">
+    <div class="mid-info">
+      <div>
+        <div class="mid-model" id="mid-model">— SZICÍLIA —</div>
+        <div class="mid-cat" id="mid-cat">Standard</div>
+        <div class="mid-dim" id="mid-dim">90 × 210 cm · 10 cm fal</div>
+      </div>
+    </div>
+    <div id="mid-photo-wrap" style="display:flex;gap:0;justify-content:center;align-items:flex-end;width:100%">
+      <img id="mid-photo" class="mid-photo" src="" alt="">
+      <img id="mid-photo-l" src="" alt="" style="max-height:320px;width:50%;object-fit:contain;display:none">
+      <img id="mid-photo-r" src="" alt="" style="max-height:320px;width:50%;object-fit:contain;display:none">
+      <div id="mid-no-img" class="mid-no-msg" style="display:none"></div>
     </div>
   </div>
-  <!-- Fotó előnézet -->
-  <div id="mid-photo-wrap" style="display:flex;gap:0;justify-content:center;align-items:flex-end;flex:1;width:100%">
-    <!-- Egyszárnyas: egy kép -->
-    <img id="mid-photo" class="mid-photo" src="" alt="" style="max-height:460px;display:none">
-    <!-- Kétszárnyas: két kép egymás mellett -->
-    <img id="mid-photo-l" src="" alt="" style="max-height:460px;width:50%;object-fit:cover;display:none">
-    <img id="mid-photo-r" src="" alt="" style="max-height:460px;width:50%;object-fit:cover;display:none">
-    <!-- Ha nincs kép -->
-    <div id="mid-no-img" style="color:var(--t2);font-size:10px;font-family:var(--bb);letter-spacing:0.5px;text-align:center;padding:8px 0 4px 0;display:none"></div>
-  </div>
-</div>
 
-<!-- ════════════ RIGHT ════════════ -->
-<div class="right">
-  <div class="tab-bar">
-    <div class="tab active" onclick="switchTab('price',this)">AJÁNLAT</div>
-    <div class="tab" onclick="switchTab('admin',this)">ADMIN <span class="lbadge" id="lbadge">🔒</span></div>
-  </div>
+  <!-- AJÁNLAT + ADMIN -->
+  <div class="offer">
+    <div class="tab-bar">
+      <div class="tab active" onclick="switchTab('price',this)">AJÁNLAT</div>
+      <div class="tab" onclick="switchTab('admin',this)">ADMIN <span class="lbadge" id="lbadge">🔒</span></div>
+    </div>
 
   <!-- PRICE -->
   <div class="price-panel" id="price-panel">
@@ -663,7 +690,8 @@ body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:15px;ov
       <div style="height:24px"></div>
     </div>
   </div>
-</div>
+</div><!-- /offer -->
+</div><!-- /right -->
 
 </div><!-- /app -->
 
@@ -949,13 +977,39 @@ function GP(type,x,y,w,h){
 }
 
 // ════ STATE ════
-var cfg={type:'single',hinge:'left',frame:'uth',model:MODELS[0],surface:'dekor',color:'#d4c0a0',colorName:'Sziklás fenyő',ralCode:'',hardware:'chrome',kuszob:'none',zar:'bb',szello:'none',betet:'none',csuko:'none',w:90,h:210,falv:10};
+var cfg={type:'single',hinge:'left',frame:'uth',model:MODELS[0],surface:'dekor',color:'#d4c0a0',colorName:'Sziklás fenyő',ralCode:'',hardware:'nincs',kuszob:'none',zar:'bb',szello:'none',betet:'none',csuko:'none',uveg:'alap',w:90,h:210,falv:10};
 var cart=[];
 var customItemId=0;
 
 // ════ AUTH ════
 var PW_KEY='bp_pw3';var SET_KEY='bp_set3';
 var HASZON_PW='haszon2026';
+
+// ════ ÜVEG ÁRAK (csak haszon szorzó, kedvezmény NEM) ════
+var UVEG_ARAK={alap:0,extra1:7800,lemezbetet:12200,tukor:24900,bizbizt:24900,fekbizt_kaz:49800,fekbizt_kif:18800,bizanc_esg:21000,bizanc_cs:24900,bizanc_savmar:40500};
+var UVEG_NEV={alap:'Alap üveg',extra1:'Extra üveg (+7 800 Ft)',lemezbetet:'Lemezbetét (+12 200 Ft)',tukor:'Egyoldali tükör (+24 900 Ft)',bizbizt:'Biztonsági üveg (+24 900 Ft)',fekbizt_kaz:'Fekete bizt. üveg kazettás (+49 800 Ft)',fekbizt_kif:'Fekete bizt. üveg kifutó (+18 800 Ft)',bizanc_esg:'Bizánc ESG üveg (+21 000 Ft)',bizanc_cs:'Bizánc Clear Shield (+24 900 Ft)',bizanc_savmar:'Bizánc savmaratás (+40 500 Ft)'};
+
+function selectUveg(val,row){
+  cfg.uveg=val;
+  document.querySelectorAll('.uveg-row').forEach(function(r){r.classList.remove('active-uveg');});
+  if(row)row.classList.add('active-uveg');
+  var radio=row?row.querySelector('.uveg-radio'):null;
+  if(radio)radio.checked=true;
+  calc();
+}
+
+function updateUvegVisibility(){
+  var m=cfg.model;
+  var isUveges=m&&(m.cat==='biz'||m.cat==='kazetta'||m.cat==='intarzia');
+  // Ha a modell üveges kategóriájú, mutatjuk az üveg szekciót
+  // Egyszerűsítve: ha a modellnek van 'g' (glass) tulajdonsága ami nem üres
+  var hasGlass=m&&m.g&&m.g.length>0&&m.cat!=='standard'&&m.cat!=='femcsik';
+  var sec=document.getElementById('uveg-sec');
+  if(sec){
+    if(hasGlass){sec.classList.add('vis');}
+    else{sec.classList.remove('vis');cfg.uveg='alap';}
+  }
+}
 function unlockHaszon(){
   var pw=document.getElementById('haszon-pw').value;
   var err=document.getElementById('haszon-lock-err');
@@ -1104,6 +1158,7 @@ function onModelChg(){
   document.getElementById('mid-cat').textContent=CATS[m.cat]||m.cat;
   // Középső panel: fotó vagy rajz
   updateMidView();
+  updateUvegVisibility();
   draw();calc();
 }
 
@@ -1200,6 +1255,9 @@ function s(k,v,el){
 function sh(v,el){
   cfg.hardware=v;
   document.querySelectorAll('.ho').forEach(function(e){e.classList.remove('active')});el.classList.add('active');
+  var note=document.getElementById('pant-note');
+  if(note)note.style.display=v==='nincs'?'none':'block';
+  draw();calc();
 }
 function toggleAcc(h){var b=h.nextElementSibling,a=h.querySelector('.acc-a');b.classList.toggle('open');a.classList.toggle('open');}
 function switchTab(tab,el){
@@ -1214,7 +1272,15 @@ function updateFalv(){
   cfg.falv=parseFloat(document.getElementById('falv').value)||10;
   var isD=cfg.surface==='dekor',lim=isD?12:15;
   var extra=cfg.falv-lim;
-  document.getElementById('falv-note').textContent=extra<=0?'Alap ár (≤'+lim+' cm Dekor / ≤15 cm CPL·MDF)':'Tokszélesítés +'+extra.toFixed(1)+' cm × 1 220 Ft = +'+Math.round(extra*1220).toLocaleString('hu-HU')+' Ft';
+  var note='';
+  if(cfg.frame==='gereb'){
+    note='Gerébtokra nem vonatkozik tokszélesítési felár.';
+  } else if(extra<=0){
+    note='Alap ár (≤'+lim+' cm Dekor / ≤15 cm CPL·MDF)';
+  } else {
+    note='Tokszélesítés +'+extra.toFixed(1)+' cm × 1 220 Ft = +'+Math.round(extra*1220).toLocaleString('hu-HU')+' Ft';
+  }
+  document.getElementById('falv-note').textContent=note;
   draw();calc();
 }
 
@@ -1630,10 +1696,10 @@ function calcPrice(){
     var gAt=cfg.surface==='mdf'?iv('f_gmdf'):iv('f_gdc');
     items.push({label:'Gerébtok felár',val:feToElad(cfg.type==='double'?gAt*2:gAt)});
   }
-  // tokszélesítés
+  // tokszélesítés — gerébtokra nem vonatkozik
   var falv=cfg.falv||10;
   var isD=cfg.surface==='dekor',lim=isD?12:15;
-  if(falv>lim&&cfg.frame!=='none'){
+  if(falv>lim&&cfg.frame==='uth'){
     var extra=falv-lim;
     var tokFelAr=Math.round(extra*(isD?iv('f_tokd'):iv('f_tokc')));
     if(tokFelAr>0)items.push({label:'Tokszélesítés (+'+extra.toFixed(1)+' cm)',val:feToElad(tokFelAr)});
@@ -1652,9 +1718,18 @@ function calcPrice(){
   if(cfg.betet==='furat')items.push({label:'Furatolt betét',val:feToElad(iv('f_fur'))});
   if(cfg.betet==='lenrost')items.push({label:'Lenrost betét',val:feToElad(iv('f_len'))});
   if(cfg.csuko==='dorma')items.push({label:'Dorma ajtócsukó',val:feToElad(iv('f_dor'))});
-  // Pánt takaró: 3400 Ft/ajtó (2db × 1700)
-  var pantAr=feToElad(3400);
-  items.push({label:'Pánt takaró (2 db)',val:pantAr});
+  // Üveg felár (csak haszon%, kedvezmény NEM vonatkozik rá)
+  var uvegAr=UVEG_ARAK[cfg.uveg]||0;
+  if(uvegAr>0){
+    var hasMod=iv('has-mod')/100;
+    var uvegElad=Math.round(uvegAr*(1+hasMod));
+    items.push({label:'Üveg felár — '+(UVEG_NEV[cfg.uveg]||cfg.uveg),val:uvegElad});
+  }
+  // Pánt takaró: csak ha van kiválasztva
+  if(cfg.hardware&&cfg.hardware!=='nincs'){
+    var pantAr=feToElad(3400);
+    items.push({label:'Pánt takaró — '+cfg.hardware+' (2 db)',val:pantAr});
+  }
   return{items:items,total:items.reduce(function(s,r){return s+r.val;},0),listaAr:listaAr};
 }
 
@@ -1784,7 +1859,7 @@ function printPDF(){
 }
 
 // ════ INIT ════
-buildDekor();buildCPL();buildMSel('all');loadSet();loadLogo();draw();calc();renderCart();
+buildDekor();buildCPL();buildMSel('all');loadSet();loadLogo();draw();calc();renderCart();updateUvegVisibility();
 </script>
 </body>
 </html>
