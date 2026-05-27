@@ -17,32 +17,41 @@
 }
 body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:15px;overflow:hidden}
 
-/* ══ NEW 2-col layout: left config | right (photo+offer) ══ */
-.app{display:grid;grid-template-columns:540px 1fr;height:100vh;overflow:hidden}
-@media(max-width:900px){
-  .app{grid-template-columns:1fr;height:auto;overflow:auto}
+/* ══ 4-col layout ══ */
+.app{display:grid;grid-template-columns:260px 280px 1fr 280px;height:100vh;overflow:hidden}
+@media(max-width:1100px){
+  .app{grid-template-columns:1fr 1fr;height:auto;overflow:auto}
   body{overflow:auto}
 }
+@media(max-width:600px){
+  .app{grid-template-columns:1fr;height:auto}
+}
 
-/* ══════════ LEFT ══════════ */
-.left{background:var(--bg);border-right:1px solid var(--brd);overflow-y:auto;display:flex;flex-direction:column}
-.left::-webkit-scrollbar{width:3px}.left::-webkit-scrollbar-thumb{background:var(--brd2)}
+.col{overflow-y:auto;border-right:1px solid var(--brd);display:flex;flex-direction:column}
+.col:last-child{border-right:none}
+.col::-webkit-scrollbar{width:3px}.col::-webkit-scrollbar-thumb{background:var(--brd2)}
 
-.ph{padding:14px 20px 11px;border-bottom:1px solid var(--brd);flex-shrink:0}
-.ph-t{font-family:var(--bb);font-size:22px;letter-spacing:2px;color:var(--red)}
-.ph-s{font-size:11px;color:var(--t3);letter-spacing:1px;text-transform:uppercase;margin-top:2px}
+/* Col1 — Méretek/Üveg/Pánt/Kiegészítők */
+.col1{background:var(--bg)}
+/* Col2 — Modell/Felület */
+.col2{background:var(--bg2)}
+/* Col3 — Kép */
+.col3{background:var(--bg2);overflow:hidden;position:relative}
+.col3-img{display:flex;justify-content:center;align-items:center;flex:1;padding:8px;overflow:hidden;gap:0}
+/* Col4 — Ajánlat/Admin */
+.col4{background:var(--bg);display:flex;flex-direction:column;overflow:hidden}
 
-/* 2-column config grid */
-.cfg-grid{display:grid;grid-template-columns:1fr 1fr;gap:0}
-.cfg-cell{padding:12px 20px;border-bottom:1px solid var(--brd);border-right:1px solid var(--brd)}
-.cfg-cell:nth-child(even){border-right:none}
-.cfg-cell.full{grid-column:1/-1;border-right:none}
-.sl{font-family:var(--bb);font-size:14px;letter-spacing:2.5px;color:var(--t);margin-bottom:8px}
+.ph{padding:12px 16px 10px;border-bottom:1px solid var(--brd);flex-shrink:0}
+.ph-t{font-family:var(--bb);font-size:20px;letter-spacing:2px;color:var(--red)}
+.ph-s{font-size:10px;color:var(--t3);letter-spacing:1px;text-transform:uppercase;margin-top:2px}
+
+.sec{padding:10px 16px;border-bottom:1px solid var(--brd)}
+.sl{font-family:var(--bb);font-size:13px;letter-spacing:2px;color:var(--t);margin-bottom:7px}
 
 /* buttons */
 .bg{display:flex;gap:5px;flex-wrap:wrap}
-.ob{background:var(--bg3);border:1px solid var(--brd2);color:var(--t);font-size:13px;padding:8px 14px;cursor:pointer;border-radius:3px;transition:all .12s;line-height:1;font-family:var(--dm)}
-.ob:hover{border-color:#666;color:var(--t)}
+.ob{background:var(--bg3);border:1px solid var(--brd2);color:var(--t);font-size:12px;padding:7px 12px;cursor:pointer;border-radius:3px;transition:all .12s;line-height:1;font-family:var(--dm)}
+.ob:hover{border-color:#666}
 .ob.active{background:var(--red);border-color:var(--red);color:#fff;font-weight:500}
 
 /* model select */
@@ -287,161 +296,101 @@ body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:15px;ov
 <body>
 <div class="app">
 
-<!-- ════════════ LEFT ════════════ -->
-<div class="left">
+<!-- ══ COL 1: Méretek / Üveg / Pánt / Kiegészítők ══ -->
+<div class="col col1">
   <div class="ph">
-    <div class="ph-t">BOROVI KONFIGURÁTOR</div>
-    <div class="ph-s">Beltéri ajtó · 2026.03.01-től érvényes árak</div>
+    <div class="ph-t">BOROVI</div>
+    <div class="ph-s">Beltéri ajtó konfigurátor · 2026</div>
   </div>
 
-  <div class="cfg-grid">
+  <!-- Szárny + Nyitás -->
+  <div class="sec">
+    <div class="sl">SZÁRNY TÍPUS</div>
+    <div class="bg">
+      <button class="ob active" onclick="s('type','single',this)">Egyszárnyú</button>
+      <button class="ob" onclick="s('type','double',this)">Kétszárnyú</button>
+    </div>
+  </div>
+  <div class="sec">
+    <div class="sl">NYITÁS IRÁNYA</div>
+    <div class="bg">
+      <button class="ob active" onclick="s('hinge','left',this)">◁ Bal</button>
+      <button class="ob" onclick="s('hinge','right',this)">Jobb ▷</button>
+    </div>
+  </div>
 
-    <!-- Szárny -->
-    <div class="cfg-cell">
-      <div class="sl">SZÁRNY TÍPUS</div>
-      <div class="bg">
-        <button class="ob active" onclick="s('type','single',this)">Egyszárnyú</button>
-        <button class="ob" onclick="s('type','double',this)">Kétszárnyú</button>
+  <!-- Tok -->
+  <div class="sec">
+    <div class="sl">TOK TÍPUS</div>
+    <div class="bg" style="margin-bottom:5px">
+      <button class="ob active" onclick="s('frame','uth',this)">UTH átfogó</button>
+      <button class="ob" onclick="s('frame','gereb',this)">Gerébtok</button>
+      <button class="ob" onclick="s('frame','none',this)">Csak lap</button>
+    </div>
+    <div id="tok-note" class="note">UTH tok az alapárban (Dekor: ≤12cm, CPL/MDF: ≤15cm).</div>
+  </div>
+
+  <!-- Méretek -->
+  <div class="sec">
+    <div class="sl">MÉRETEK (cm)</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+      <div>
+        <div class="dlbl" style="text-align:left;margin-bottom:3px">Szélesség</div>
+        <input class="di" type="number" id="dw" value="90" min="50" max="220" oninput="cfg.w=parseInt(this.value)||90;draw();calc()">
+      </div>
+      <div>
+        <div class="dlbl" style="text-align:left;margin-bottom:3px">Magasság</div>
+        <input class="di" type="number" id="dh" value="210" min="50" max="220" oninput="cfg.h=parseInt(this.value)||210;draw();calc()">
       </div>
     </div>
-
-    <!-- Nyitás -->
-    <div class="cfg-cell">
-      <div class="sl">NYITÁS IRÁNYA</div>
-      <div class="bg">
-        <button class="ob active" onclick="s('hinge','left',this)">◁ Bal</button>
-        <button class="ob" onclick="s('hinge','right',this)">Jobb ▷</button>
-      </div>
+    <div class="dlbl" style="text-align:left;margin-bottom:3px">Falvastagság</div>
+    <div style="display:flex;gap:7px;align-items:center;margin-bottom:5px">
+      <input class="di" type="number" id="falv" value="10" min="6" max="60" step="0.5" style="width:80px;flex:none" oninput="updateFalv()">
+      <span style="font-size:11px;color:var(--t3)">cm</span>
     </div>
+    <div class="note" id="falv-note">Alap ár (≤12 cm Dekor / ≤15 cm CPL·MDF)</div>
+  </div>
 
-    <!-- Tok -->
-    <div class="cfg-cell">
-      <div class="sl">TOK TÍPUS</div>
-      <div class="bg" style="margin-bottom:5px">
-        <button class="ob active" onclick="s('frame','uth',this)">UTH átfogó</button>
-        <button class="ob" onclick="s('frame','gereb',this)">Gerébtok</button>
-        <button class="ob" onclick="s('frame','none',this)">Csak lap</button>
-      </div>
-      <div id="tok-note" class="note">UTH tok az alapárban (Dekor: ≤12cm, CPL/MDF: ≤15cm).</div>
-    </div>
-
-    <!-- Falvastagság -->
-    <div class="cfg-cell">
-      <div class="sl">FALVASTAGSÁG</div>
-      <div style="display:flex;gap:7px;align-items:center;margin-bottom:5px">
-        <input class="di" type="number" id="falv" value="10" min="6" max="60" step="0.5" style="width:80px;flex:none" oninput="updateFalv()">
-        <span style="font-size:11px;color:var(--t3)">cm</span>
-      </div>
-      <div class="note" id="falv-note">Alap ár (≤12 cm Dekor / ≤15 cm CPL·MDF)</div>
-    </div>
-
-    <!-- Méretek -->
-    <div class="cfg-cell">
-      <div class="sl">SZÉLESSÉG (cm)</div>
-      <input class="di" type="number" id="dw" value="90" min="50" max="220" oninput="cfg.w=parseInt(this.value)||90;draw();calc()">
-      <div class="dlbl">Névleges méret</div>
-    </div>
-    <div class="cfg-cell">
-      <div class="sl">MAGASSÁG (cm)</div>
-      <input class="di" type="number" id="dh" value="210" min="50" max="220" oninput="cfg.h=parseInt(this.value)||210;draw();calc()">
-      <div class="dlbl">Névleges méret</div>
-    </div>
-
-    <!-- Modell — full width -->
-    <div class="cfg-cell full">
-      <div class="sl">MODELL</div>
-      <div class="msw">
-        <select class="csel" id="cat-sel" onchange="onCatChg()">
-          <option value="all">MIND</option>
-          <option value="standard">STANDARD</option>
-          <option value="intarzia">INTARZIÁS</option>
-          <option value="femcsik">FÉMCSÍKOS</option>
-          <option value="kazetta">KAZETTÁS</option>
-          <option value="biz">BIZTONSÁGI</option>
-        </select>
-        <select class="msel" id="model-sel" onchange="onModelChg()"></select>
-      </div>
-      <!-- Képes galéria -->
-      <div class="mgal" id="model-gallery"></div>
-      <div class="mprev" style="margin-top:8px">
-        <svg id="mpsvg" viewBox="0 0 44 58" width="44" height="58" xmlns="http://www.w3.org/2000/svg">
-          <rect x="1" y="1" width="42" height="56" rx="1" fill="none" stroke="#fff" stroke-width="1"/>
-        </svg>
-        <div>
-          <div class="mi-name" id="mi-name">SZICÍLIA</div>
-          <div class="mi-cat" id="mi-cat">Standard</div>
-          <div class="mi-p" id="mi-p"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Felület — full width -->
-    <div class="cfg-cell full">
-      <div class="sl">FELÜLET TÍPUS</div>
-      <div class="stabs">
-        <div class="stab active" onclick="switchSurf('dekor',this)">DEKOR</div>
-        <div class="stab" onclick="switchSurf('cpl',this)">CPL</div>
-        <div class="stab" onclick="switchSurf('mdf',this)">FESTETT MDF</div>
-      </div>
-      <div class="sp vis" id="sp-dekor">
-        <div class="drow" id="dekor-row"></div>
-        <div class="note">5 mintázat. Egyedi méret: +11 080 Ft felár.</div>
-      </div>
-      <div class="sp" id="sp-cpl">
-        <div class="cplg" id="cpl-grid"></div>
-        <div class="note">26 CPL szín. Egyedi méret felár nélkül.</div>
-      </div>
-      <div class="sp" id="sp-mdf">
-        <div class="ral-r">
-          <div class="ral-pr" id="ral-pr" style="background:#f5f2ee"></div>
-          <input class="ral-i" id="ral-i" type="text" placeholder="pl. RAL 9016" oninput="updateRAL(this.value)">
-        </div>
-        <div class="note">RAL szín felár: +10 000 Ft. Egyedi méret felár nélkül.</div>
-      </div>
-    </div>
-
-    <!-- Vasalat — full width -->
-    <div class="cfg-cell full">
-      <div class="sl">PÁNT TAKARÓ SZÍN</div>
-      <div class="hwg">
-        <div class="ho active" onclick="sh('nincs',this)"><div class="hw-d" style="background:#2a2a2a;border-color:#555;display:flex;align-items:center;justify-content:center;font-size:10px;color:#888">—</div><span class="hw-n">Nincs</span></div>
-        <div class="ho" onclick="sh('fekete',this)"><div class="hw-d" style="background:#1a1a1a;border-color:#555"></div><span class="hw-n">Fekete</span></div>
-        <div class="ho" onclick="sh('feher',this)"><div class="hw-d" style="background:#f0f0f0;border-color:#ccc"></div><span class="hw-n">Fehér</span></div>
-        <div class="ho" onclick="sh('antracit',this)"><div class="hw-d" style="background:#3a3f47;border-color:#666"></div><span class="hw-n">Antracit</span></div>
-        <div class="ho" onclick="sh('krom',this)"><div class="hw-d" style="background:#c8c8d0;border-color:#999"></div><span class="hw-n">Króm</span></div>
-        <div class="ho" onclick="sh('rez',this)"><div class="hw-d" style="background:#b87333;border-color:#8a5520"></div><span class="hw-n">Réz</span></div>
-        <div class="ho" onclick="sh('antik',this)"><div class="hw-d" style="background:#7a6040;border-color:#504030"></div><span class="hw-n">Antik</span></div>
-        <div class="ho" onclick="sh('surolt_bronz',this)"><div class="hw-d" style="background:#8c7355;border-color:#604830"></div><span class="hw-n">Súrolt bronz</span></div>
-        <div class="ho" onclick="sh('saten_rez',this)"><div class="hw-d" style="background:#c8a870;border-color:#a07840"></div><span class="hw-n">Szatén réz</span></div>
-        <div class="ho" onclick="sh('matt_rez',this)"><div class="hw-d" style="background:#a07840;border-color:#785828"></div><span class="hw-n">Matt réz</span></div>
-        <div class="ho" onclick="sh('matt_vorosrez',this)"><div class="hw-d" style="background:#8b3a2a;border-color:#602818"></div><span class="hw-n">Matt vörösréz</span></div>
-      </div>
-      <div class="note" id="pant-note" style="display:none">Pánt takaró felára: 1 700 Ft+ÁFA/db · Ajtónként 2 db szükséges (3 400 Ft+ÁFA/ajtó)</div>
-      <div class="note" style="margin-top:4px;color:var(--t3)">Kilincs választás hamarosan elérhető.</div>
-    </div>
-
-  </div><!-- /cfg-grid -->
-
-  <!-- ÜVEGEZÉS (csak üveges ajtónál) -->
-  <div class="uveg-sec" id="uveg-sec">
+  <!-- Üvegezés -->
+  <div class="sec uveg-sec" id="uveg-sec">
     <div class="sl">ÜVEGEZÉS</div>
     <div class="note" style="color:var(--red);margin-bottom:6px">⚠ Kedvezmények a felárakból nem érvényesíthetők!</div>
     <table class="uveg-table">
-      <tr><th></th><th>Üvegtípus</th><th>Felár/ajtó</th></tr>
-      <tr class="uveg-row" onclick="selectUveg('alap',this)"><td><input type="radio" class="uveg-radio" name="uveg" value="alap" checked></td><td class="uveg-lbl">Csincsilla fehér; Fatörzs Fehér; Float; Krizet; Kura; Sima Savmart</td><td>alapáras</td></tr>
+      <tr><th></th><th>Üvegtípus</th><th>Felár</th></tr>
+      <tr class="uveg-row" onclick="selectUveg('alap',this)"><td><input type="radio" class="uveg-radio" name="uveg" value="alap" checked></td><td class="uveg-lbl">Csincsilla fehér; Fatörzs Fehér; Float; Krizet; Kura; Sima Savmart</td><td>alap</td></tr>
       <tr class="uveg-row" onclick="selectUveg('extra1',this)"><td><input type="radio" class="uveg-radio" name="uveg" value="extra1"></td><td class="uveg-lbl">Fekete; Fehér Punto; Santuk; Szürke Parsol; Basak; Domino; Matt Delta; Szürke reflexiós; Screen</td><td>7 800 Ft</td></tr>
       <tr class="uveg-row" onclick="selectUveg('lemezbetet',this)"><td><input type="radio" class="uveg-radio" name="uveg" value="lemezbetet"></td><td class="uveg-lbl">Lemezbetét (ajtó színével azonos)</td><td>12 200 Ft</td></tr>
-      <tr class="uveg-row" onclick="selectUveg('tukor',this)"><td><input type="radio" class="uveg-radio" name="uveg" value="tukor"></td><td class="uveg-lbl">Egyoldali tükör (kazettás ajtókba rendelhető)</td><td>24 900 Ft</td></tr>
-      <tr class="uveg-row" onclick="selectUveg('bizbizt',this)"><td><input type="radio" class="uveg-radio" name="uveg" value="bizbizt"></td><td class="uveg-lbl">4.4.1 float ragasztott biztonsági; 4.4.1 matt ragasztott biztonsági</td><td>24 900 Ft</td></tr>
-      <tr class="uveg-row" onclick="selectUveg('fekbizt_kaz',this)"><td><input type="radio" class="uveg-radio" name="uveg" value="fekbizt_kaz"></td><td class="uveg-lbl">Extra Fekete 4.4.1 ragasztott biztonsági — kazettás ajtókhoz</td><td>49 800 Ft</td></tr>
-      <tr class="uveg-row" onclick="selectUveg('fekbizt_kif',this)"><td><input type="radio" class="uveg-radio" name="uveg" value="fekbizt_kif"></td><td class="uveg-lbl">Extra Fekete 4.4.1 ragasztott biztonsági — kifutó üveges ajtókhoz</td><td>18 800 Ft</td></tr>
-      <tr class="uveg-row" onclick="selectUveg('bizanc_esg',this)"><td><input type="radio" class="uveg-radio" name="uveg" value="bizanc_esg"></td><td class="uveg-lbl">Szürke Parsol 8mm ESG — Bizánc modellhez</td><td>21 000 Ft</td></tr>
-      <tr class="uveg-row" onclick="selectUveg('bizanc_cs',this)"><td><input type="radio" class="uveg-radio" name="uveg" value="bizanc_cs"></td><td class="uveg-lbl">Clear Shield bevonat — Bizánc ajtókhoz</td><td>24 900 Ft</td></tr>
-      <tr class="uveg-row" onclick="selectUveg('bizanc_savmar',this)"><td><input type="radio" class="uveg-radio" name="uveg" value="bizanc_savmar"></td><td class="uveg-lbl">Egyedi savmaratási minta — Bizánc modellhez</td><td>40 500 Ft</td></tr>
+      <tr class="uveg-row" onclick="selectUveg('tukor',this)"><td><input type="radio" class="uveg-radio" name="uveg" value="tukor"></td><td class="uveg-lbl">Egyoldali tükör (kazettás ajtókba)</td><td>24 900 Ft</td></tr>
+      <tr class="uveg-row" onclick="selectUveg('bizbizt',this)"><td><input type="radio" class="uveg-radio" name="uveg" value="bizbizt"></td><td class="uveg-lbl">4.4.1 float / matt ragasztott biztonsági</td><td>24 900 Ft</td></tr>
+      <tr class="uveg-row" onclick="selectUveg('fekbizt_kaz',this)"><td><input type="radio" class="uveg-radio" name="uveg" value="fekbizt_kaz"></td><td class="uveg-lbl">Fekete 4.4.1 biztonsági — kazettás</td><td>49 800 Ft</td></tr>
+      <tr class="uveg-row" onclick="selectUveg('fekbizt_kif',this)"><td><input type="radio" class="uveg-radio" name="uveg" value="fekbizt_kif"></td><td class="uveg-lbl">Fekete 4.4.1 biztonsági — kifutó üveges</td><td>18 800 Ft</td></tr>
+      <tr class="uveg-row" onclick="selectUveg('bizanc_esg',this)"><td><input type="radio" class="uveg-radio" name="uveg" value="bizanc_esg"></td><td class="uveg-lbl">Szürke Parsol 8mm ESG — Bizánc</td><td>21 000 Ft</td></tr>
+      <tr class="uveg-row" onclick="selectUveg('bizanc_cs',this)"><td><input type="radio" class="uveg-radio" name="uveg" value="bizanc_cs"></td><td class="uveg-lbl">Clear Shield bevonat — Bizánc</td><td>24 900 Ft</td></tr>
+      <tr class="uveg-row" onclick="selectUveg('bizanc_savmar',this)"><td><input type="radio" class="uveg-radio" name="uveg" value="bizanc_savmar"></td><td class="uveg-lbl">Egyedi savmaratási minta — Bizánc</td><td>40 500 Ft</td></tr>
     </table>
   </div>
 
-  <!-- Kiegészítők accordion -->
+  <!-- Pánt takaró -->
+  <div class="sec">
+    <div class="sl">PÁNT TAKARÓ SZÍN</div>
+    <div class="hwg">
+      <div class="ho active" onclick="sh('nincs',this)"><div class="hw-d" style="background:#2a2a2a;border-color:#555;display:flex;align-items:center;justify-content:center;font-size:10px;color:#888">—</div><span class="hw-n">Nincs</span></div>
+      <div class="ho" onclick="sh('fekete',this)"><div class="hw-d" style="background:#1a1a1a;border-color:#555"></div><span class="hw-n">Fekete</span></div>
+      <div class="ho" onclick="sh('feher',this)"><div class="hw-d" style="background:#f0f0f0;border-color:#ccc"></div><span class="hw-n">Fehér</span></div>
+      <div class="ho" onclick="sh('antracit',this)"><div class="hw-d" style="background:#3a3f47;border-color:#666"></div><span class="hw-n">Antracit</span></div>
+      <div class="ho" onclick="sh('krom',this)"><div class="hw-d" style="background:#c8c8d0;border-color:#999"></div><span class="hw-n">Króm</span></div>
+      <div class="ho" onclick="sh('rez',this)"><div class="hw-d" style="background:#b87333;border-color:#8a5520"></div><span class="hw-n">Réz</span></div>
+      <div class="ho" onclick="sh('antik',this)"><div class="hw-d" style="background:#7a6040;border-color:#504030"></div><span class="hw-n">Antik</span></div>
+      <div class="ho" onclick="sh('surolt_bronz',this)"><div class="hw-d" style="background:#8c7355;border-color:#604830"></div><span class="hw-n">Súrolt bronz</span></div>
+      <div class="ho" onclick="sh('saten_rez',this)"><div class="hw-d" style="background:#c8a870;border-color:#a07840"></div><span class="hw-n">Szatén réz</span></div>
+      <div class="ho" onclick="sh('matt_rez',this)"><div class="hw-d" style="background:#a07840;border-color:#785828"></div><span class="hw-n">Matt réz</span></div>
+      <div class="ho" onclick="sh('matt_vorosrez',this)"><div class="hw-d" style="background:#8b3a2a;border-color:#602818"></div><span class="hw-n">Matt vörösréz</span></div>
+    </div>
+    <div class="note" id="pant-note" style="display:none">Pánt takaró felára: 1 700 Ft+ÁFA/db · Ajtónként 2 db (3 400 Ft+ÁFA)</div>
+    <div class="note" style="margin-top:4px;color:var(--t3)">Kilincs választás hamarosan elérhető.</div>
+  </div>
+
+  <!-- Kiegészítők -->
   <div class="acc-h" onclick="toggleAcc(this)">
     <span class="al">KIEGÉSZÍTŐK</span><span class="acc-a">▼</span>
   </div>
@@ -487,34 +436,86 @@ body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:15px;ov
       </div>
     </div>
   </div>
-</div><!-- /left -->
+</div><!-- /col1 -->
 
-<!-- ════════════ RIGHT (kép + ajánlat) ════════════ -->
-<div class="right">
+<!-- ══ COL 2: Modell + Felület ══ -->
+<div class="col col2">
+  <div class="ph">
+    <div class="ph-t">MODELL</div>
+    <div class="ph-s">Válassz ajtómodellt</div>
+  </div>
 
-  <!-- FOTÓ ELŐNÉZET -->
-  <div class="mid">
-    <div class="mid-info">
-      <div>
-        <div class="mid-model" id="mid-model">— SZICÍLIA —</div>
-        <div class="mid-cat" id="mid-cat">Standard</div>
-        <div class="mid-dim" id="mid-dim">90 × 210 cm · 10 cm fal</div>
-      </div>
+  <div class="sec">
+    <div class="msw">
+      <select class="csel" id="cat-sel" onchange="onCatChg()">
+        <option value="all">MIND</option>
+        <option value="standard">STANDARD</option>
+        <option value="intarzia">INTARZIÁS</option>
+        <option value="femcsik">FÉMCSÍKOS</option>
+        <option value="kazetta">KAZETTÁS</option>
+        <option value="biz">BIZTONSÁGI</option>
+      </select>
+      <select class="msel" id="model-sel" onchange="onModelChg()"></select>
     </div>
-    <div id="mid-photo-wrap" style="display:flex;gap:0;justify-content:center;align-items:flex-end;width:100%">
-      <img id="mid-photo" class="mid-photo" src="" alt="">
-      <img id="mid-photo-l" src="" alt="" style="max-height:320px;width:50%;object-fit:contain;display:none">
-      <img id="mid-photo-r" src="" alt="" style="max-height:320px;width:50%;object-fit:contain;display:none">
-      <div id="mid-no-img" class="mid-no-msg" style="display:none"></div>
+    <div class="mgal" id="model-gallery"></div>
+    <div class="mprev" style="margin-top:8px">
+      <svg id="mpsvg" viewBox="0 0 44 58" width="44" height="58" xmlns="http://www.w3.org/2000/svg">
+        <rect x="1" y="1" width="42" height="56" rx="1" fill="none" stroke="#fff" stroke-width="1"/>
+      </svg>
+      <div>
+        <div class="mi-name" id="mi-name">SZICÍLIA</div>
+        <div class="mi-cat" id="mi-cat">Standard</div>
+        <div class="mi-p" id="mi-p"></div>
+      </div>
     </div>
   </div>
 
-  <!-- AJÁNLAT + ADMIN -->
-  <div class="offer">
-    <div class="tab-bar">
-      <div class="tab active" onclick="switchTab('price',this)">AJÁNLAT</div>
-      <div class="tab" onclick="switchTab('admin',this)">ADMIN <span class="lbadge" id="lbadge">🔒</span></div>
+  <div class="sec">
+    <div class="sl">FELÜLET TÍPUS</div>
+    <div class="stabs">
+      <div class="stab active" onclick="switchSurf('dekor',this)">DEKOR</div>
+      <div class="stab" onclick="switchSurf('cpl',this)">CPL</div>
+      <div class="stab" onclick="switchSurf('mdf',this)">FESTETT MDF</div>
     </div>
+    <div class="sp vis" id="sp-dekor">
+      <div class="drow" id="dekor-row"></div>
+      <div class="note">5 mintázat. Egyedi méret: +11 080 Ft felár.</div>
+    </div>
+    <div class="sp" id="sp-cpl">
+      <div class="cplg" id="cpl-grid"></div>
+      <div class="note">26 CPL szín. Egyedi méret felár nélkül.</div>
+    </div>
+    <div class="sp" id="sp-mdf">
+      <div class="ral-r">
+        <div class="ral-pr" id="ral-pr" style="background:#f5f2ee"></div>
+        <input class="ral-i" id="ral-i" type="text" placeholder="pl. RAL 9016" oninput="updateRAL(this.value)">
+      </div>
+      <div class="note">RAL szín felár: +10 000 Ft. Egyedi méret felár nélkül.</div>
+    </div>
+  </div>
+</div><!-- /col2 -->
+
+<!-- ══ COL 3: Kép előnézet ══ -->
+<div class="col col3">
+  <div class="ph">
+    <div class="mid-model" id="mid-model" style="font-size:18px">— SZICÍLIA —</div>
+    <div class="mid-cat" id="mid-cat">Standard</div>
+    <div class="mid-dim" id="mid-dim" style="margin-top:2px">90 × 210 cm · 10 cm fal</div>
+  </div>
+  <div class="col3-img">
+    <img id="mid-photo" class="mid-photo" src="" alt="">
+    <img id="mid-photo-l" src="" alt="" style="max-height:500px;width:50%;object-fit:contain;display:none">
+    <img id="mid-photo-r" src="" alt="" style="max-height:500px;width:50%;object-fit:contain;display:none">
+    <div id="mid-no-img" style="color:var(--t2);font-size:11px;font-family:var(--bb);letter-spacing:1px;text-align:center;padding:20px 0;display:none"></div>
+  </div>
+</div><!-- /col3 -->
+
+<!-- ══ COL 4: Admin + Ajánlat ══ -->
+<div class="col col4">
+  <div class="tab-bar">
+    <div class="tab active" onclick="switchTab('price',this)">AJÁNLAT</div>
+    <div class="tab" onclick="switchTab('admin',this)">ADMIN <span class="lbadge" id="lbadge">🔒</span></div>
+  </div>
 
   <!-- PRICE -->
   <div class="price-panel" id="price-panel">
@@ -553,25 +554,22 @@ body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:15px;ov
       <div class="custom-add" id="custom-add">
         <div style="font-family:var(--bb);font-size:9px;letter-spacing:1.5px;color:var(--t2);margin-bottom:5px">EGYEDI TÉTEL</div>
         <div class="ca-row">
-          <input class="ca-inp" id="ca-name" type="text" placeholder="Megnevezés (pl. Beépítés, Szállítás...)">
-        </div>
-        <div class="ca-row">
-          <input class="ca-inp num" id="ca-price" type="number" placeholder="Nettó ár (Ft)" min="0">
-          <span style="font-size:10px;color:var(--t3)">Ft</span>
+          <input class="ca-inp" id="ca-name" type="text" placeholder="Megnevezés">
+          <input class="ca-inp num" id="ca-price" type="number" placeholder="Ft">
           <button class="ca-ok" onclick="addCustomItem()">OK</button>
-          <button class="ca-cancel" onclick="hideCustom()">×</button>
+          <button class="ca-cancel" onclick="hideCustom()">✕</button>
         </div>
-      </div>
-      <div class="cart-actions">
-        <button class="ca-sm-btn" onclick="showCustom()">+ EGYEDI TÉTEL</button>
-        <button class="ca-sm-btn" onclick="clearCart()">TÖRLÉS</button>
       </div>
       <div class="cart-total">
         <span class="ct-label">VÉGÖSSZEG</span>
-        <div>
-          <div class="ct-val"><span style="font-size:11px;color:var(--t2);margin-right:2px">Ft</span><span id="cart-total">0</span></div>
+        <div style="text-align:right">
+          <div class="ct-val">Ft <span id="cart-total">0</span></div>
           <div class="ct-afa" id="cart-afa"></div>
         </div>
+      </div>
+      <div class="cart-actions">
+        <button class="ca-sm-btn" onclick="showCustom()">+ Egyedi tétel</button>
+        <button class="ca-sm-btn" onclick="clearCart()">Törlés</button>
       </div>
     </div>
     <button class="pdf-btn" onclick="openPDF()">📄 AJÁNLAT GENERÁLÁSA (PDF)</button>
@@ -594,7 +592,6 @@ body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:15px;ov
           <button class="logout-btn" onclick="doLogout()">KILÉPÉS</button>
         </div>
       </div>
-
       <div class="asec">CÉGES ADATOK</div>
       <div style="margin-bottom:8px">
         <div style="font-family:var(--bb);font-size:9px;letter-spacing:1.5px;color:var(--t2);margin-bottom:5px">LOGÓ (PNG/JPG)</div>
@@ -616,7 +613,6 @@ body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:15px;ov
       <input class="ceg-inp" id="ceg-email" type="text" placeholder="E-mail" oninput="save()">
       <input class="ceg-inp" id="ceg-web" type="text" placeholder="Weboldal" oninput="save()">
       <input class="ceg-inp" id="ceg-adoszam" type="text" placeholder="Adószám" oninput="save()">
-
       <div class="asec">ÜGYFÉL ADATOK</div>
       <div class="adim">Ajánlatonként tölthető ki, nem mentődik.</div>
       <input class="ceg-inp" id="ugyf-nev" type="text" placeholder="Ügyfél neve">
@@ -624,7 +620,6 @@ body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:15px;ov
       <input class="ceg-inp" id="ugyf-tel" type="text" placeholder="Ügyfél telefon">
       <input class="ceg-inp" id="ugyf-email" type="text" placeholder="Ügyfél e-mail">
       <input class="ceg-inp" id="aj-megjegyzes" type="text" placeholder="Megjegyzés az ajánlathoz">
-
       <div class="asec">HASZON BEÁLLÍTÁS</div>
       <div id="haszon-lock-box" style="background:var(--bg4);border:1px solid var(--brd2);border-radius:3px;padding:12px;margin-bottom:10px;text-align:center">
         <div style="font-size:22px;margin-bottom:6px">🔒</div>
@@ -647,15 +642,14 @@ body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:15px;ov
         </div>
         <button onclick="lockHaszon()" style="background:none;border:1px solid var(--brd2);color:var(--t3);font-family:var(--bb);font-size:10px;letter-spacing:1px;padding:4px 10px;cursor:pointer;border-radius:2px;margin-bottom:10px">🔒 ZÁRÁS</button>
       </div>
-
       <div class="asec">ÁTADÁSI FELÁRAK</div>
-      <div class="adim">Borovi 2026.03.01-es árjegyzék. Módosítsd ha változnak.</div>
+      <div class="adim">Borovi 2026.03.01-es árjegyzék.</div>
       <table class="at">
         <tr><th>Tétel</th><th>Ft</th></tr>
         <tr><td>Gerébtok — Dekor/CPL</td><td><input class="pi" id="f_gdc" value="14700" type="number" oninput="save();calc()"></td></tr>
         <tr><td>Gerébtok — Festett MDF</td><td><input class="pi" id="f_gmdf" value="29400" type="number" oninput="save();calc()"></td></tr>
-        <tr><td>Tokszélesítés/cm — Dekor (12cm felett)</td><td><input class="pi" id="f_tokd" value="1220" type="number" oninput="save();calc()"></td></tr>
-        <tr><td>Tokszélesítés/cm — CPL/MDF (15cm felett)</td><td><input class="pi" id="f_tokc" value="1220" type="number" oninput="save();calc()"></td></tr>
+        <tr><td>Tokszélesítés/cm — Dekor</td><td><input class="pi" id="f_tokd" value="1220" type="number" oninput="save();calc()"></td></tr>
+        <tr><td>Tokszélesítés/cm — CPL/MDF</td><td><input class="pi" id="f_tokc" value="1220" type="number" oninput="save();calc()"></td></tr>
         <tr><td>RAL szín felár</td><td><input class="pi" id="f_ral" value="10000" type="number" oninput="save();calc()"></td></tr>
         <tr><td>WC / PZ zár felár</td><td><input class="pi" id="f_zar" value="800" type="number" oninput="save();calc()"></td></tr>
         <tr><td>Fém szellőzőrács (pár)</td><td><input class="pi" id="f_sz" value="9000" type="number" oninput="save();calc()"></td></tr>
@@ -679,7 +673,6 @@ body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:15px;ov
         <tr><td>41–50 cm</td><td><input class="pi" id="f_c6" value="9000" type="number" oninput="save();calc()"></td></tr>
         <tr><td>51–60 cm</td><td><input class="pi" id="f_c7" value="11000" type="number" oninput="save();calc()"></td></tr>
       </table>
-
       <div class="asec">ADMIN JELSZÓ MÓDOSÍTÁS</div>
       <div class="pw-row">
         <input type="password" class="pw-i" id="pw1" placeholder="Új jelszó">
@@ -690,10 +683,11 @@ body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:15px;ov
       <div style="height:24px"></div>
     </div>
   </div>
-</div><!-- /offer -->
-</div><!-- /right -->
+</div><!-- /col4 -->
 
 </div><!-- /app -->
+
+
 
 <!-- PDF OVERLAY -->
 <div class="pdf-overlay" id="pdf-overlay">
