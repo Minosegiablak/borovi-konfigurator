@@ -15,7 +15,7 @@
   --t:#ffffff;--t2:#cccccc;--t3:#888888;
   --bb:'Bebas Neue',sans-serif;--dm:'DM Sans',sans-serif
 }
-body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:14px;overflow:hidden}
+body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:15px;overflow:hidden}
 
 /* ══ 3-col layout: wide left | narrow mid | right ══ */
 .app{display:grid;grid-template-columns:520px 1fr 280px;height:100vh}
@@ -33,11 +33,11 @@ body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:14px;ov
 .cfg-cell{padding:12px 20px;border-bottom:1px solid var(--brd);border-right:1px solid var(--brd)}
 .cfg-cell:nth-child(even){border-right:none}
 .cfg-cell.full{grid-column:1/-1;border-right:none}
-.sl{font-family:var(--bb);font-size:11px;letter-spacing:2.5px;color:var(--t2);margin-bottom:8px}
+.sl{font-family:var(--bb);font-size:14px;letter-spacing:2.5px;color:var(--t);margin-bottom:8px}
 
 /* buttons */
 .bg{display:flex;gap:5px;flex-wrap:wrap}
-.ob{background:var(--bg3);border:1px solid var(--brd2);color:var(--t2);font-size:12px;padding:7px 13px;cursor:pointer;border-radius:3px;transition:all .12s;line-height:1;font-family:var(--dm)}
+.ob{background:var(--bg3);border:1px solid var(--brd2);color:var(--t);font-size:13px;padding:8px 14px;cursor:pointer;border-radius:3px;transition:all .12s;line-height:1;font-family:var(--dm)}
 .ob:hover{border-color:#666;color:var(--t)}
 .ob.active{background:var(--red);border-color:var(--red);color:#fff;font-weight:500}
 
@@ -89,7 +89,7 @@ body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:14px;ov
 .hw-d{width:14px;height:14px;border-radius:50%;border:1px solid #444;flex-shrink:0}
 .hw-n{font-size:11px;color:var(--t2)}
 
-.note{font-size:9px;color:var(--t3);margin-top:5px;line-height:1.6}
+.note{font-size:11px;color:var(--t2);margin-top:5px;line-height:1.6}
 
 /* accordion */
 .acc-h{padding:11px 20px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--brd)}
@@ -393,16 +393,21 @@ body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:14px;ov
 
     <!-- Vasalat — full width -->
     <div class="cfg-cell full">
-      <div class="sl">KILINCS & VASALAT</div>
+      <div class="sl">PÁNT TAKARÓ SZÍN</div>
       <div class="hwg">
-        <div class="ho active" onclick="sh('chrome',this)"><div class="hw-d" style="background:#c8c8d0;border-color:#999"></div><span class="hw-n">Króm</span></div>
-        <div class="ho" onclick="sh('gold',this)"><div class="hw-d" style="background:#d4a843;border-color:#a07820"></div><span class="hw-n">Arany</span></div>
-        <div class="ho" onclick="sh('mblack',this)"><div class="hw-d" style="background:#333;border-color:#666"></div><span class="hw-n">Matt fekete</span></div>
-        <div class="ho" onclick="sh('bronze',this)"><div class="hw-d" style="background:#8c5e3c;border-color:#664530"></div><span class="hw-n">Bronz</span></div>
-        <div class="ho" onclick="sh('nickel',this)"><div class="hw-d" style="background:#b0afa8;border-color:#888"></div><span class="hw-n">Nikkel</span></div>
-        <div class="ho" onclick="sh('inox',this)"><div class="hw-d" style="background:#e0ddd8;border-color:#aaa"></div><span class="hw-n">Inox</span></div>
+        <div class="ho active" onclick="sh('fekete',this)"><div class="hw-d" style="background:#1a1a1a;border-color:#555"></div><span class="hw-n">Fekete</span></div>
+        <div class="ho" onclick="sh('feher',this)"><div class="hw-d" style="background:#f0f0f0;border-color:#ccc"></div><span class="hw-n">Fehér</span></div>
+        <div class="ho" onclick="sh('antracit',this)"><div class="hw-d" style="background:#3a3f47;border-color:#666"></div><span class="hw-n">Antracit</span></div>
+        <div class="ho" onclick="sh('krom',this)"><div class="hw-d" style="background:#c8c8d0;border-color:#999"></div><span class="hw-n">Króm</span></div>
+        <div class="ho" onclick="sh('rez',this)"><div class="hw-d" style="background:#b87333;border-color:#8a5520"></div><span class="hw-n">Réz</span></div>
+        <div class="ho" onclick="sh('antik',this)"><div class="hw-d" style="background:#7a6040;border-color:#504030"></div><span class="hw-n">Antik</span></div>
+        <div class="ho" onclick="sh('surolt_bronz',this)"><div class="hw-d" style="background:#8c7355;border-color:#604830"></div><span class="hw-n">Súrolt bronz</span></div>
+        <div class="ho" onclick="sh('saten_rez',this)"><div class="hw-d" style="background:#c8a870;border-color:#a07840"></div><span class="hw-n">Szatén réz</span></div>
+        <div class="ho" onclick="sh('matt_rez',this)"><div class="hw-d" style="background:#a07840;border-color:#785828"></div><span class="hw-n">Matt réz</span></div>
+        <div class="ho" onclick="sh('matt_vorosrez',this)"><div class="hw-d" style="background:#8b3a2a;border-color:#602818"></div><span class="hw-n">Matt vörösréz</span></div>
       </div>
-      <div class="note">A kilincs ára nem szerepel az alapárban.</div>
+      <div class="note" style="margin-top:6px">Pánt takaró felára: 1 700 Ft+ÁFA/db · Ajtónként 2 db szükséges (3 400 Ft+ÁFA/ajtó)</div>
+      <div class="note" style="margin-top:4px;color:var(--t3)">Kilincs választás hamarosan elérhető.</div>
     </div>
 
   </div><!-- /cfg-grid -->
@@ -1214,7 +1219,7 @@ function updateFalv(){
 }
 
 // ════ DRAW ════
-var hwC={chrome:'#c8c8d4',gold:'#d4a843',mblack:'#3a3a3a',bronze:'#8c5e3c',nickel:'#b8b7b0',inox:'#e4e0d8'};
+var hwC={fekete:'#1a1a1a',feher:'#f0f0f0',antracit:'#3a3f47',krom:'#c8c8d4',rez:'#b87333',antik:'#7a6040',surolt_bronz:'#8c7355',saten_rez:'#c8a870',matt_rez:'#a07840',matt_vorosrez:'#8b3a2a'};
 
 function draw(){
   var svg=document.getElementById('dsvg');
@@ -1647,6 +1652,9 @@ function calcPrice(){
   if(cfg.betet==='furat')items.push({label:'Furatolt betét',val:feToElad(iv('f_fur'))});
   if(cfg.betet==='lenrost')items.push({label:'Lenrost betét',val:feToElad(iv('f_len'))});
   if(cfg.csuko==='dorma')items.push({label:'Dorma ajtócsukó',val:feToElad(iv('f_dor'))});
+  // Pánt takaró: 3400 Ft/ajtó (2db × 1700)
+  var pantAr=feToElad(3400);
+  items.push({label:'Pánt takaró (2 db)',val:pantAr});
   return{items:items,total:items.reduce(function(s,r){return s+r.val;},0),listaAr:listaAr};
 }
 
@@ -1743,22 +1751,25 @@ function openPDF(){
   var ugyfTel=document.getElementById('ugyf-tel').value||'';
   var ugyfEmail=document.getElementById('ugyf-email').value||'';
   var megjegyzes=document.getElementById('aj-megjegyzes').value||'';
-  var grandTotal=cart.reduce(function(s,c){return s+c.total;},0);
+  var doorCount=cart.filter(function(c){return c.type==='door';}).length;
+  var logDij=doorCount*4000;
+  var grandTotal=cart.reduce(function(s,c){return s+c.total;},0)+logDij;
   var grandAfa=Math.round(grandTotal*1.27);
   var rows=cart.map(function(item,i){
     var subRows=item.items?item.items.map(function(r){return '<div class="pdoc-sub">'+r.label+': '+r.val.toLocaleString('hu-HU')+' Ft</div>';}).join(''):'';
-    var imgHtml=item.imgSrc?'<img src="'+item.imgSrc+'" style="width:60px;height:90px;object-fit:cover;border-radius:2px;border:1px solid #e8e8e8;float:left;margin-right:10px;margin-bottom:2px" alt="'+item.name+'"><div style="float:left;margin-right:10px;font-size:8px;color:#bbb;text-align:center;width:60px;margin-bottom:4px">illusztráció</div>':'';
+    var imgHtml=item.imgSrc?'<img src="'+item.imgSrc+'" style="width:80px;height:120px;object-fit:contain;border-radius:2px;border:1px solid #e8e8e8;float:left;margin-right:12px;margin-bottom:2px" alt="'+item.name+'"><div style="float:left;margin-right:12px;font-size:8px;color:#bbb;text-align:center;width:80px;margin-bottom:4px">illusztráció</div>':'';
     return '<tr><td style="font-weight:600">'+(i+1)+'. '+item.name+'</td><td>'+imgHtml+(item.detail||'—')+'<br>'+subRows+'<div style="clear:both"></div></td><td class="r">'+item.total.toLocaleString('hu-HU')+' Ft</td></tr>';
   }).join('');
+  var logRow=doorCount>0?'<tr><td style="font-weight:600">'+(cart.length+1)+'. Gyártói logisztikai díj</td><td><div class="pdoc-sub">'+doorCount+' db × 4 000 Ft</div></td><td class="r">'+logDij.toLocaleString('hu-HU')+' Ft</td></tr>':'';
   var logoHtml=logoDataUrl?'<img src="'+logoDataUrl+'" style="max-height:64px;max-width:180px;object-fit:contain;display:block;margin-left:auto">':'<div class="pdoc-ceg-nev" style="text-align:right">'+(cegNev||'BOROVI')+'</div>';
   var html='<div class="pdoc">';
   html+='<div class="pdoc-head"><div><div class="pdoc-ceg-nev">'+(cegNev||'Cég neve')+'</div><div class="pdoc-ceg">'+(cegCim?cegCim+'<br>':'')+(cegTel?'Tel: '+cegTel+'<br>':'')+(cegEmail?cegEmail+'<br>':'')+(cegWeb?cegWeb+'<br>':'')+(cegAdoszam?'Adószám: '+cegAdoszam:'')+'</div></div><div style="text-align:right">'+logoHtml+'<div style="font-size:9px;color:#aaa;margin-top:5px;letter-spacing:1px">BELTÉRI AJTÓ AJÁNLAT</div></div></div>';
   html+='<div class="pdoc-meta"><div class="pdoc-block"><div class="pdoc-block-t">ÜGYFÉL</div><div class="pdoc-block-val">'+(ugyfNev?'<strong>'+ugyfNev+'</strong><br>':'<em style="color:#ccc">Nincs megadva</em><br>')+(ugyfCim?ugyfCim+'<br>':'')+(ugyfTel?'Tel: '+ugyfTel+'<br>':'')+(ugyfEmail?ugyfEmail:'')+'</div></div><div class="pdoc-block"><div class="pdoc-block-t">AJÁNLAT ADATAI</div><div class="pdoc-block-val"><strong>'+ajId+'</strong><br>'+ds+'<br><span style="font-size:10px;color:#aaa">30 napig érvényes</span></div></div></div>';
   html+='<div class="pdoc-title">TÉTELEK ('+cart.length+' db ajtó)</div>';
-  html+='<table class="pdoc-table"><tr><th style="width:20%">Tétel</th><th>Konfiguráció</th><th class="r" style="width:15%">Nettó ár</th></tr>'+rows+'</table>';
+  html+='<table class="pdoc-table"><tr><th style="width:20%">Tétel</th><th>Konfiguráció</th><th class="r" style="width:15%">Nettó ár</th></tr>'+rows+logRow+'</table>';
   html+='<div class="pdoc-total"><div class="pdoc-total-row"><span class="pdoc-total-label">NETTÓ ÖSSZESEN</span><span class="pdoc-total-val">'+grandTotal.toLocaleString('hu-HU')+' Ft</span></div><div class="pdoc-total-row"><span class="pdoc-total-label">ÁFA (27%)</span><span class="pdoc-total-val">'+Math.round(grandTotal*0.27).toLocaleString('hu-HU')+' Ft</span></div><div class="pdoc-total-row main"><span class="pdoc-total-label">BRUTTÓ VÉGÖSSZEG</span><span class="pdoc-total-val">'+grandAfa.toLocaleString('hu-HU')+' Ft</span></div></div>';
   if(megjegyzes)html+='<div style="margin-top:16px;padding:10px 13px;background:#f8f8f8;border:1px solid #eee;border-radius:3px;font-size:11px;color:#555"><strong>Megjegyzés:</strong> '+megjegyzes+'</div>';
-  html+='<div class="pdoc-footer">Az árak nettó árak, az ÁFÁ-t nem tartalmazzák. Az ajánlat '+ds+'-tól számított 30 napig érvényes. A kilincs ára az alapárban nem szerepel. Árak a Borovi Faipari Zrt. 2026.03.01-es viszonteladói árjegyzéke alapján.<br>'+(cegNev?cegNev+' · ':'')+( cegTel?'Tel: '+cegTel+' · ':'')+( cegEmail||'')+'</div>';
+  html+='<div class="pdoc-footer">Az árak nettó árak, az ÁFÁ-t nem tartalmazzák. Az ajánlat '+ds+'-tól számított 30 napig érvényes.<br><br>Árak a Borovi Faipari Zrt. 2026.03.01-es viszonteladói árjegyzéke alapján.<br><br>A kilincs ára az alapárban nem szerepel. Ezt minden esetben külön tételként adjuk meg.<br>A küszöb nem tartozék. Ezt minden esetben külön kell rendelni.<br>A geréb tok felára tartalmazza a 10×19mm-es sarok- és 10×40mm-es takaróléceket.<br><br>'+(cegNev?cegNev+' · ':'')+( cegTel?'Tel: '+cegTel+' · ':'')+( cegEmail||'')+'</div>';
   html+='</div>';
   document.getElementById('pdf-preview').innerHTML=html;
   document.getElementById('pdf-overlay').classList.add('vis');
