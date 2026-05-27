@@ -18,7 +18,7 @@
 body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:15px;overflow:hidden}
 
 /* ══ 4-col layout ══ */
-.app{display:grid;grid-template-columns:260px 280px 1fr 280px;height:100vh;overflow:hidden}
+.app{display:grid;grid-template-columns:240px 320px 1fr 280px;height:100vh;overflow:hidden}
 @media(max-width:1100px){
   .app{grid-template-columns:1fr 1fr;height:auto;overflow:auto}
   body{overflow:auto}
@@ -76,11 +76,11 @@ body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:15px;ov
 /* color swatches */
 .drow{display:flex;gap:8px;flex-wrap:wrap}
 .ci{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer}
-.csw{width:36px;height:36px;border-radius:3px;border:2px solid transparent;transition:all .12s;flex-shrink:0}
+.csw{width:40px;height:40px;border-radius:3px;border:2px solid transparent;transition:all .12s;flex-shrink:0}
 .csw:hover{transform:scale(1.08);border-color:#555}
 .csw.active{border-color:var(--red);transform:scale(1.1);box-shadow:0 0 0 1px var(--red)}
-.cn{font-size:8px;color:var(--t3);text-align:center;max-width:40px;line-height:1.3}
-.cplg{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.cn{font-size:9px;color:var(--t3);text-align:center;max-width:44px;line-height:1.3}
+.cplg{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
 .ral-r{display:flex;gap:7px;align-items:center}
 .ral-pr{width:36px;height:36px;border-radius:3px;border:1px solid var(--brd2);flex-shrink:0}
 .ral-i{background:var(--bg3);border:1px solid var(--brd2);color:var(--t);font-family:var(--dm);font-size:12px;padding:7px 10px;flex:1;border-radius:3px}
@@ -243,7 +243,7 @@ body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:15px;ov
 .smsg{font-size:9px;color:var(--red);height:12px;display:block;margin-top:3px}
 
 /* ══════════ MODEL GALLERY ══════════ */
-.mgal{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px;max-height:260px;overflow-y:auto}
+.mgal{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px;max-height:380px;overflow-y:auto}
 .mgal::-webkit-scrollbar{width:3px}.mgal::-webkit-scrollbar-thumb{background:var(--brd2)}
 .mcard{background:var(--bg3);border:1px solid var(--brd2);border-radius:3px;cursor:pointer;overflow:hidden;transition:all .12s;position:relative}
 .mcard:hover{border-color:#666;transform:scale(1.03)}
@@ -251,7 +251,7 @@ body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:15px;ov
 .mcard img{width:100%;aspect-ratio:2/3;object-fit:cover;display:block}
 .mcard-noimg{width:100%;aspect-ratio:2/3;display:flex;align-items:center;justify-content:center;background:var(--bg4)}
 .mcard-nosvg{width:100%;height:100%}
-.mcard-lbl{font-size:8px;color:var(--t3);text-align:center;padding:3px 2px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mcard-lbl{font-size:9px;color:var(--t3);text-align:center;padding:4px 2px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mcard.active .mcard-lbl{color:var(--red)}
 
 /* ══════════ PDF OVERLAY ══════════ */
@@ -825,7 +825,7 @@ var MODEL_IMAGES={
   'kana':'images/Kana.jpg',
   'karthago1':'images/Karthago_I.jpg',
   'karthago2':'images/KarthagolI.jpg',
-  'karthago3':'images/KarthagolII.jpg',
+  'karthago3':'images/KarthagoIII.jpg',
   'korfu':'images/Korfu.jpg',
   'korinthosz':'images/Korinthosz.jpg',
   'kroton':'images/Kroton.jpg',
