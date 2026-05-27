@@ -456,32 +456,24 @@ body{background:var(--bg);color:var(--t);font-family:var(--dm);font-size:13px;ov
 </div><!-- /left -->
 
 <!-- ════════════ MIDDLE ════════════ -->
-<div class="mid" style="overflow:hidden;padding:12px 8px">
-  <!-- Zoom controls -->
-  <div style="display:flex;align-items:center;justify-content:space-between;width:100%;margin-bottom:6px;flex-shrink:0">
+<div class="mid" style="overflow:hidden;padding:12px 8px;display:flex;flex-direction:column;align-items:center">
+  <!-- Fejléc -->
+  <div style="display:flex;align-items:center;justify-content:space-between;width:100%;margin-bottom:8px;flex-shrink:0">
     <div style="text-align:left">
       <div class="mid-model" id="mid-model">— SZICÍLIA —</div>
       <div class="mid-cat" id="mid-cat">Standard</div>
       <div class="mid-dim" id="mid-dim">90 × 210 cm · 10 cm fal</div>
     </div>
-    <div style="display:flex;gap:4px;flex-shrink:0">
-      <button onclick="changeZoom(0.25)" style="background:var(--bg3);border:1px solid var(--brd2);color:var(--t2);font-family:var(--bb);font-size:10px;padding:4px 8px;cursor:pointer;border-radius:2px">+</button>
-      <button onclick="changeZoom(-0.25)" style="background:var(--bg3);border:1px solid var(--brd2);color:var(--t2);font-family:var(--bb);font-size:10px;padding:4px 8px;cursor:pointer;border-radius:2px">−</button>
-      <button onclick="resetZoom()" style="background:var(--bg3);border:1px solid var(--brd2);color:var(--t3);font-family:var(--bb);font-size:9px;padding:4px 8px;cursor:pointer;border-radius:2px">1:1</button>
-      <button id="toggle-view-btn" onclick="toggleMidView()" style="background:var(--bg3);border:1px solid var(--brd2);color:var(--t2);font-family:var(--bb);font-size:9px;padding:4px 8px;cursor:pointer;border-radius:2px;display:none">📐 RAJZ</button>
-    </div>
   </div>
-  <!-- Fotó előnézet (ha van kép) -->
-  <img id="mid-photo" class="mid-photo" src="" alt="" style="max-height:480px">
-  <!-- Scrollable drawing area -->
-  <div id="mid-svg-wrap" class="mid-svg-wrap">
-    <div id="draw-scroll" style="overflow:auto;width:100%;flex:1;cursor:grab">
-      <div id="draw-inner" style="transform-origin:top left;transition:transform 0.15s">
-        <svg id="dsvg" viewBox="0 0 320 520" width="320" height="520" xmlns="http://www.w3.org/2000/svg"></svg>
-        <div style="font-family:var(--bb);font-size:9px;letter-spacing:2px;color:var(--t3);text-align:center;padding:4px 0;background:#161616">TOK FELÜLNÉZET — METSZET</div>
-        <svg id="tsvg" viewBox="0 0 320 180" width="320" height="180" xmlns="http://www.w3.org/2000/svg"></svg>
-      </div>
-    </div>
+  <!-- Fotó előnézet -->
+  <div id="mid-photo-wrap" style="display:flex;gap:0;justify-content:center;align-items:flex-end;flex:1;width:100%">
+    <!-- Egyszárnyas: egy kép -->
+    <img id="mid-photo" class="mid-photo" src="" alt="" style="max-height:460px;display:none">
+    <!-- Kétszárnyas: két kép egymás mellett -->
+    <img id="mid-photo-l" src="" alt="" style="max-height:460px;width:50%;object-fit:cover;display:none">
+    <img id="mid-photo-r" src="" alt="" style="max-height:460px;width:50%;object-fit:cover;display:none">
+    <!-- Ha nincs kép -->
+    <div id="mid-no-img" style="color:var(--t3);font-size:11px;display:none">Nincs előnézeti kép</div>
   </div>
 </div>
 
@@ -1083,33 +1075,43 @@ function onModelChg(){
 function updateMidView(){
   var m=cfg.model;
   var imgSrc=MODEL_IMAGES[m.id];
-  var photoEl=document.getElementById('mid-photo');
-  var svgWrap=document.getElementById('mid-svg-wrap');
-  var toggleBtn=document.getElementById('toggle-view-btn');
-  // Tükrözés bal nyitásnál
-  photoEl.style.transform=cfg.hinge==='left'?'scaleX(-1)':'scaleX(1)';
-  if(imgSrc){
-    toggleBtn.style.display='block';
-    if(midShowPhoto){
-      photoEl.src=imgSrc;
-      photoEl.classList.add('vis');
-      svgWrap.classList.add('hidden');
-      toggleBtn.textContent='📐 RAJZ';
-    } else {
-      photoEl.classList.remove('vis');
-      svgWrap.classList.remove('hidden');
-      toggleBtn.textContent='📷 FOTÓ';
-    }
-  } else {
-    toggleBtn.style.display='none';
-    photoEl.classList.remove('vis');
-    svgWrap.classList.remove('hidden');
-  }
-}
+  var isL=cfg.hinge==='left';
+  var isD=cfg.type==='double';
 
-function toggleMidView(){
-  midShowPhoto=!midShowPhoto;
-  updateMidView();
+  var photoEl=document.getElementById('mid-photo');
+  var photoL=document.getElementById('mid-photo-l');
+  var photoR=document.getElementById('mid-photo-r');
+  var noImg=document.getElementById('mid-no-img');
+
+  // Reset
+  photoEl.style.display='none';
+  photoL.style.display='none';
+  photoR.style.display='none';
+  noImg.style.display='none';
+
+  if(!imgSrc){
+    noImg.style.display='block';
+    return;
+  }
+
+  if(isD){
+    // Kétszárnyas: bal kép tükrözve (pánt balra), jobb kép normál (pánt jobbra)
+    // Kilincs: bal szárnyon jobb oldalon, jobb szárnyon bal oldalon (egymással szemben)
+    photoL.src=imgSrc;
+    photoR.src=imgSrc;
+    photoL.style.display='block';
+    photoR.style.display='block';
+    // bal szárny: normál (kilincs jobb oldalon néz a középre)
+    // jobb szárny: tükrözve (kilincs bal oldalon néz a középre)
+    photoL.style.transform='scaleX(1)';
+    photoR.style.transform='scaleX(-1)';
+  } else {
+    // Egyszárnyas
+    photoEl.src=imgSrc;
+    photoEl.style.display='block';
+    // Bal nyitás = tükrözés (kilincs bal oldalra kerül)
+    photoEl.style.transform=isL?'scaleX(-1)':'scaleX(1)';
+  }
 }
 
 // ════ COLORS ════
@@ -1159,7 +1161,7 @@ function s(k,v,el){
     var n={uth:'UTH tok az alapárban (Dekor: ≤12cm, CPL/MDF: ≤15cm falvastagságig).',gereb:'Gerébtok felár: Dekor/CPL +14 700 Ft, Festett MDF +29 400 Ft.',none:'Csak ajtólap (tok ára levonva a modell árból).'};
     document.getElementById('tok-note').textContent=n[v]||'';
   }
-  if(k==='hinge')updateMidView();
+  if(k==='hinge'||k==='type')updateMidView();
   draw();calc();
 }
 function sh(v,el){
@@ -1210,6 +1212,19 @@ function draw(){
   // szárnyak — piros ív NÉLKÜL
   if(!isD){
     o+=leaf(ix,iy,iw,ih,isL,hw);
+    // Pántok a tok és lap között
+    if(!noF){
+      var pantX=isL?ox:(ox+ow-ft);
+      var pantW2=ft;
+      var pantH2=10;
+      var pantColor=hw;
+      [0.25,0.75].forEach(function(p){
+        var pantY=oy+oh*p-pantH2/2;
+        o+='<rect x="'+pantX+'" y="'+pantY+'" width="'+pantW2+'" height="'+pantH2+'" rx="1.5" fill="'+pantColor+'" stroke="#0006" stroke-width="0.5"/>';
+        o+='<line x1="'+(pantX+pantW2*0.3)+'" y1="'+(pantY+3)+'" x2="'+(pantX+pantW2*0.3)+'" y2="'+(pantY+pantH2-3)+'" stroke="#0004" stroke-width="0.8"/>';
+        o+='<line x1="'+(pantX+pantW2*0.7)+'" y1="'+(pantY+3)+'" x2="'+(pantX+pantW2*0.7)+'" y2="'+(pantY+pantH2-3)+'" stroke="#0004" stroke-width="0.8"/>';
+      });
+    }
   } else {
     var half=Math.floor(iw/2)-1;
     o+=leaf(ix,iy,half,ih,true,hw);
@@ -1696,7 +1711,7 @@ function openPDF(){
   var grandAfa=Math.round(grandTotal*1.27);
   var rows=cart.map(function(item,i){
     var subRows=item.items?item.items.map(function(r){return '<div class="pdoc-sub">'+r.label+': '+r.val.toLocaleString('hu-HU')+' Ft</div>';}).join(''):'';
-    var imgHtml=item.imgSrc?'<img src="'+item.imgSrc+'" style="width:60px;height:90px;object-fit:cover;border-radius:2px;border:1px solid #e8e8e8;float:left;margin-right:10px;margin-bottom:4px" alt="'+item.name+'">':'';
+    var imgHtml=item.imgSrc?'<img src="'+item.imgSrc+'" style="width:60px;height:90px;object-fit:cover;border-radius:2px;border:1px solid #e8e8e8;float:left;margin-right:10px;margin-bottom:2px" alt="'+item.name+'"><div style="float:left;margin-right:10px;font-size:8px;color:#bbb;text-align:center;width:60px;margin-bottom:4px">illusztráció</div>':'';
     return '<tr><td style="font-weight:600">'+(i+1)+'. '+item.name+'</td><td>'+imgHtml+(item.detail||'—')+'<br>'+subRows+'<div style="clear:both"></div></td><td class="r">'+item.total.toLocaleString('hu-HU')+' Ft</td></tr>';
   }).join('');
   var logoHtml=logoDataUrl?'<img src="'+logoDataUrl+'" style="max-height:64px;max-width:180px;object-fit:contain;display:block;margin-left:auto">':'<div class="pdoc-ceg-nev" style="text-align:right">'+(cegNev||'BOROVI')+'</div>';
