@@ -1,6 +1,6 @@
-const { createClient } = require('@upstash/redis');
+const { Redis } = require('@upstash/redis');
 
-const redis = createClient({
+const redis = new Redis({
   url: process.env.KV_REST_API_URL,
   token: process.env.KV_REST_API_TOKEN,
 });
@@ -18,7 +18,6 @@ module.exports = async (req, res) => {
     return res.end();
   }
 
-  // Admin jelszó ellenőrzés
   const auth = req.headers['authorization'] || '';
   const password = auth.replace('Bearer ', '');
   if (password !== ADMIN_PASSWORD) {
@@ -29,7 +28,6 @@ module.exports = async (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host}`);
   const action = url.searchParams.get('action');
 
-  // Kódok listázása
   if (req.method === 'GET' && action === 'codes') {
     const keys = await redis.keys('code:*');
     const codes = [];
@@ -41,14 +39,12 @@ module.exports = async (req, res) => {
     return res.end(JSON.stringify({ codes }));
   }
 
-  // Naplók listázása
   if (req.method === 'GET' && action === 'logs') {
     const entries = await redis.lrange('log:entries', 0, 99);
     const logs = entries.map(e => JSON.parse(e));
     return res.end(JSON.stringify({ logs }));
   }
 
-  // Új kód létrehozása
   if (req.method === 'POST' && action === 'create') {
     let body = '';
     await new Promise(resolve => {
@@ -56,7 +52,6 @@ module.exports = async (req, res) => {
       req.on('end', resolve);
     });
     const { name, code: customCode } = JSON.parse(body || '{}');
-
     const code = customCode
       ? customCode.toUpperCase().replace(/[^A-Z0-9]/g, '')
       : generateCode();
@@ -76,7 +71,6 @@ module.exports = async (req, res) => {
     return res.end(JSON.stringify({ success: true, code }));
   }
 
-  // Kód törlése
   if (req.method === 'DELETE' && action === 'delete') {
     const code = url.searchParams.get('code');
     if (!code) {
