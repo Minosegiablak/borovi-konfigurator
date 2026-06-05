@@ -126,7 +126,7 @@ function showLoginPage(res, error = '') {
 
 async function serveApp(req, res) {
   try {
-    const filePath = path.join(process.cwd(), 'public', 'index.html');
+    const filePath = path.join(process.cwd(), 'public', 'app.html');
     const content = fs.readFileSync(filePath, 'utf8');
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.statusCode = 200;
