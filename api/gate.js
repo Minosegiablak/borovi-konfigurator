@@ -26,6 +26,29 @@ function getDevice(ua) {
 }
 
 module.exports = async (req, res) => {
+  const url = req.url || '/';
+
+  // Képek és statikus fájlok szabadon elérhetők
+  if (url.match(/\.(jpg|jpeg|png|gif|webp|svg|ico|css|js|woff|woff2|ttf)$/i)) {
+    const filePath = path.join(process.cwd(), url);
+    try {
+      const content = fs.readFileSync(filePath);
+      const ext = path.extname(url).toLowerCase();
+      const mimeTypes = {
+        '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg',
+        '.png': 'image/png', '.gif': 'image/gif',
+        '.webp': 'image/webp', '.svg': 'image/svg+xml',
+        '.ico': 'image/x-icon'
+      };
+      res.setHeader('Content-Type', mimeTypes[ext] || 'application/octet-stream');
+      res.statusCode = 200;
+      return res.end(content);
+    } catch {
+      res.statusCode = 404;
+      return res.end('Not found');
+    }
+  }
+
   const cookies = parseCookies(req.headers.cookie || '');
   const sessionCode = cookies['borovi_access'];
 
