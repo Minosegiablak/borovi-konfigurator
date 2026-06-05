@@ -1,10 +1,11 @@
 {
   "version": 2,
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/images/(.*)", "destination": "/images/$1" },
+    { "source": "/api/gate", "destination": "/api/gate" },
+    { "source": "/api/admin", "destination": "/api/admin" },
     { "source": "/admin", "destination": "/public/admin.html" },
+    { "source": "/images/(.*)", "destination": "/images/$1" },
     { "source": "/", "destination": "/api/gate" },
-    { "source": "/((?!images|api|admin).*)", "destination": "/api/gate" }
+    { "source": "/((?!admin|api|images).*)", "destination": "/api/gate" }
   ]
 }
