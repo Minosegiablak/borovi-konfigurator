@@ -15,11 +15,11 @@ module.exports = async (req, res) => {
 
   if (req.method === 'OPTIONS') {
     res.statusCode = 200;
-    return res.end();
+    return res.end('{}');
   }
 
   const auth = req.headers['authorization'] || '';
-  const password = auth.replace('Bearer ', '');
+  const password = auth.replace('Bearer ', '').trim();
   if (password !== ADMIN_PASSWORD) {
     res.statusCode = 401;
     return res.end(JSON.stringify({ error: 'Jogosulatlan hozzáférés' }));
@@ -32,8 +32,12 @@ module.exports = async (req, res) => {
     const keys = await redis.keys('code:*');
     const codes = [];
     for (const key of keys) {
-      const data = await redis.get(key);
-      codes.push({ code: key.replace('code:', ''), ...JSON.parse(data) });
+      const raw = await redis.get(key);
+      let data = {};
+      try {
+        data = typeof raw === 'string' ? JSON.parse(raw) : raw;
+      } catch { data = {}; }
+      codes.push({ code: key.replace('code:', ''), ...data });
     }
     codes.sort((a, b) => new Date(b.created) - new Date(a.created));
     return res.end(JSON.stringify({ codes }));
@@ -41,7 +45,10 @@ module.exports = async (req, res) => {
 
   if (req.method === 'GET' && action === 'logs') {
     const entries = await redis.lrange('log:entries', 0, 99);
-    const logs = entries.map(e => JSON.parse(e));
+    const logs = entries.map(e => {
+      try { return typeof e === 'string' ? JSON.parse(e) : e; }
+      catch { return {}; }
+    });
     return res.end(JSON.stringify({ logs }));
   }
 
@@ -51,7 +58,10 @@ module.exports = async (req, res) => {
       req.on('data', chunk => body += chunk);
       req.on('end', resolve);
     });
-    const { name, code: customCode } = JSON.parse(body || '{}');
+    let parsed = {};
+    try { parsed = JSON.parse(body || '{}'); } catch {}
+    const { name, code: customCode } = parsed;
+
     const code = customCode
       ? customCode.toUpperCase().replace(/[^A-Z0-9]/g, '')
       : generateCode();
@@ -62,12 +72,12 @@ module.exports = async (req, res) => {
       return res.end(JSON.stringify({ error: 'Ez a kód már létezik' }));
     }
 
-    const data = {
+    const data = JSON.stringify({
       name: name || 'Névtelen',
       created: new Date().toLocaleString('hu-HU', { timeZone: 'Europe/Budapest' }),
       active: true
-    };
-    await redis.set(`code:${code}`, JSON.stringify(data));
+    });
+    await redis.set(`code:${code}`, data);
     return res.end(JSON.stringify({ success: true, code }));
   }
 
